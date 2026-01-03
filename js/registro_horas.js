@@ -91,12 +91,19 @@ document.addEventListener('click', function(e) {
         const inicio = document.getElementById('nuevoInicio').value;
         const fin = document.getElementById('nuevoFin').value;
         let horas = document.getElementById('nuevoHoras').value;
-        // Si hay inicio y fin, calcular horas automáticamente
+        const msg = document.getElementById('msgRegistro');
+        // Validar que la hora final no sea menor que la inicial
         if(inicio && fin) {
             const [h1, m1] = inicio.split(':').map(Number);
             const [h2, m2] = fin.split(':').map(Number);
-            let totalMin = (h2*60 + m2) - (h1*60 + m1);
-            if(totalMin < 0) totalMin += 24*60; // por si cruza medianoche
+            const minutosInicio = h1*60 + m1;
+            const minutosFin = h2*60 + m2;
+            if(minutosFin < minutosInicio) {
+                msg.textContent = 'La hora final no puede ser menor que la hora inicial.';
+                msg.style.color = '#c00';
+                return;
+            }
+            let totalMin = minutosFin - minutosInicio;
             const horasEnteras = Math.floor(totalMin / 60);
             const minutos = totalMin % 60;
             horas = `${horasEnteras}:${minutos.toString().padStart(2,'0')}`;
@@ -106,6 +113,7 @@ document.addEventListener('click', function(e) {
         document.getElementById('nuevoInicio').value = '';
         document.getElementById('nuevoFin').value = '';
         document.getElementById('nuevoHoras').value = '';
+        msg.textContent = '';
         renderTramos();
     }
 });
