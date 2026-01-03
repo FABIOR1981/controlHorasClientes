@@ -1,41 +1,41 @@
 [
   {
     "nombre": "Pepe",
-    "contacto": "95478",
+    "rubro": "Despachante de Aduana",
     "activo": false
   },
   {
     "nombre": "Gusano Manzana",
-    "contacto": "alguno"
+    "rubro": "Agente"
   },
   {
     "nombre": "Montaña",
-    "contacto": "12345678933",
+    "rubro": "Exportador",
     "activo": true
   },
   {
     "nombre": "Soluciones Creativas",
-    "contacto": "solcrea@correo.com",
+    "rubro": "Comercio",
     "activo": true
   },
   {
     "nombre": "Distribuidora El Faro",
-    "contacto": "099123456",
+    "rubro": "Importador",
     "activo": true
   },
   {
     "nombre": "Consultora MBTI",
-    "contacto": "mbti@consultora.com",
+    "rubro": "Línea marítima",
     "activo": true
   },
   {
     "nombre": "Cliente Prueba",
-    "contacto": "prueba@correo.com",
+    "rubro": "Aerolínea",
     "activo": false
   },
   {
     "nombre": "nuevo cliente",
-    "contacto": "456789",
+    "rubro": "Exportador",
     "activo": true
   }
 ]
