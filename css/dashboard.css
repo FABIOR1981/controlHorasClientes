@@ -1,0 +1,6 @@
+/* dashboard.css - Estilos específicos para dashboard.html */
+.dashboard-container { max-width: 600px; margin: 60px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 32px; text-align: center; }
+.dashboard-container h1 { margin-bottom: 32px; }
+.dashboard-btn { display: block; width: 100%; margin: 16px 0; padding: 16px; font-size: 18px; border-radius: 6px; border: none; background: #A5D6A7; color: #1976d2; cursor: pointer; transition: background 0.2s; }
+.dashboard-btn#print-btn { background: #90caf9; color: #1565c0; }
+.dashboard-btn:hover { background: #125ea2; }
