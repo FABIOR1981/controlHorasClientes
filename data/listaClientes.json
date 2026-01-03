@@ -1,7 +1,8 @@
 [
   {
     "nombre": "Pepe",
-    "contacto": ""
+    "contacto": "",
+    "activo": false
   },
   {
     "nombre": "Gusano Manzana",
