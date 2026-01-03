@@ -85,6 +85,8 @@ document.getElementById('altaClienteForm').onsubmit = async function(e) {
     document.getElementById('altaClienteForm').reset();
     renderTablaClientes();
 
+}
+
 // Llenar el combo de rubros desde config.js (funciona si el DOM ya está cargado o no)
 function populateRubros() {
     console.log('populateRubros llamada, window.config:', window.config);
