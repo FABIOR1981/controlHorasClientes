@@ -55,8 +55,10 @@ function renderTramos() {
             <td style='padding:6px; border:1px solid #ccc;'>${tramo.fin || '-'}</td>
             <td style='padding:6px; border:1px solid #ccc;'>${tramo.horas || '-'}</td>
             <td style='padding:6px; border:1px solid #ccc;'>
-                <button type='button' onclick='editarTramo(${idx})'>Editar</button>
-                <button type='button' onclick='eliminarTramo(${idx})'>Eliminar</button>
+                <div style="display:flex; gap:8px; justify-content:center;">
+                    <button type='button' onclick='editarTramo(${idx})'>Editar</button>
+                    <button type='button' onclick='eliminarTramo(${idx})'>Eliminar</button>
+                </div>
             </td>
         `;
         tbody.appendChild(tr);
