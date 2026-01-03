@@ -1,0 +1,42 @@
+<!-- informes.html - Informes de horas por cliente y periodo -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informes de Horas</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .informes-container { max-width: 900px; margin: 60px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 32px; }
+        .informes-container h2 { margin-bottom: 24px; }
+        .informes-container select, .informes-container input { margin-bottom: 12px; padding: 8px; border-radius: 4px; border: 1px solid #ccc; }
+        .informes-container button { padding: 10px 24px; background: #1976d2; color: #fff; border: none; border-radius: 4px; font-size: 16px; margin-bottom: 16px; }
+        .tabla-informe { width: 100%; border-collapse: collapse; margin-top: 24px; }
+        .tabla-informe th, .tabla-informe td { border: 1px solid #ccc; padding: 6px; text-align: left; }
+        .tabla-informe th { background: #eee; }
+        .total-row { background: #f4f4f4; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="informes-container">
+        <h2>Informes de Horas</h2>
+        <form id="formInforme">
+            <label>Cliente:
+                <select id="clienteInforme">
+                    <option value="todos">Todos</option>
+                </select>
+            </label>
+            <label>Fecha inicio:
+                <input type="date" id="fechaInicio" required>
+            </label>
+            <label>Fecha fin:
+                <input type="date" id="fechaFin" required>
+            </label>
+            <button type="submit">Generar informe</button>
+        </form>
+        <div id="resultadoInforme"></div>
+        <button onclick="window.location.href='dashboard.html'" style="margin-top:16px;">Volver al dashboard</button>
+    </div>
+    <script src="../js/informes.js"></script>
+</body>
+</html>
