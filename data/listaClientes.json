@@ -2,5 +2,9 @@
   {
     "nombre": "Pepe",
     "contacto": ""
+  },
+  {
+    "nombre": "Gusano Manzana",
+    "contacto": "alguno"
   }
 ]
