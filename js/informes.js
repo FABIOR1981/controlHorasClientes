@@ -1,10 +1,12 @@
 // informes.js - Lógica para mostrar informes de horas por cliente y periodo
 
 async function cargarClientesInforme() {
+    console.log('cargarClientesInforme llamada');
     const select = document.getElementById('clienteInforme');
     try {
         const resp = await fetch('../data/listaClientes.json');
         const clientes = await resp.json();
+        console.log('Clientes obtenidos:', clientes);
         clientes.sort((a, b) => a.nombre.localeCompare(b.nombre));
         clientes.forEach(c => {
             const opt = document.createElement('option');
@@ -12,6 +14,7 @@ async function cargarClientesInforme() {
             opt.textContent = c.nombre;
             select.appendChild(opt);
         });
+        console.log('Combo clientes poblado');
     } catch {}
 }
 
@@ -106,4 +109,4 @@ document.getElementById('formInforme').onsubmit = async function(e) {
     resultado.innerHTML = html;
 };
 
-cargarClientesInforme();
+window.addEventListener('DOMContentLoaded', cargarClientesInforme);
