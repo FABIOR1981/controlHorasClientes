@@ -32,5 +32,10 @@
     "nombre": "Cliente Prueba",
     "contacto": "prueba@correo.com",
     "activo": false
+  },
+  {
+    "nombre": "nuevo cliente",
+    "contacto": "456789",
+    "activo": true
   }
 ]
