@@ -2,16 +2,16 @@
 
 let clientes = [];
 
-async function cargarClientes() {
-    try {
-        const resp = await fetch('../data/listaClientes.json');
-        clientes = await resp.json();
-    } catch { clientes = []; }
-    renderTablaClientes();
+    const tbody = document.getElementById('tbodyClientes');
+
+async function guardarClientes() {
+    await fetch('/.netlify/functions/update-clientes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: clientes })
+    });
 }
 
-function renderTablaClientes() {
-    const tbody = document.getElementById('tbodyClientes');
     tbody.innerHTML = '';
     clientes.forEach((c, idx) => {
         const tr = document.createElement('tr');
