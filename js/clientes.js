@@ -20,7 +20,6 @@ function renderTablaClientes() {
             <td>${c.contacto || ''}</td>
             <td class='${c.activo === false ? "inactivo" : ""}'>${c.activo === false ? 'Inactivo' : 'Activo'}</td>
             <td>
-                <button type='button' onclick='toggleActivo(${idx})'>${c.activo === false ? 'Reactivar' : 'Baja'}</button>
                 <button type='button' onclick='editarCliente(${idx})'>Editar</button>
             </td>
         `;
