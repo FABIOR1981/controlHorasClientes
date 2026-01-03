@@ -247,5 +247,16 @@
         "horas": "2:00"
       }
     ]
+  },
+  {
+    "cliente": "Distribuidora El Faro",
+    "fecha": "2026-01-15",
+    "tramos": [
+      {
+        "inicio": "",
+        "fin": "",
+        "horas": "7"
+      }
+    ]
   }
 ]
