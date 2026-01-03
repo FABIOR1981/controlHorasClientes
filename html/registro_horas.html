@@ -20,15 +20,31 @@
     <div class="registro-horas-container">
         <h2>Registrar Horas</h2>
         <form id="registroHorasForm">
-            <select id="clienteSelect" required></select>
-            <input type="date" id="fecha" required>
-            <div id="tramosContainer"></div>
-            <button type="button" id="agregarTramoBtn">Agregar tramo horario</button>
+            <div style="display:flex; gap:8px; align-items:center; margin-bottom:12px;">
+                <select id="clienteSelect" required style="flex:2"></select>
+                <input type="date" id="fecha" required style="flex:1">
+            </div>
+            <div style="display:flex; gap:8px; align-items:center; margin-bottom:12px;">
+                <input type="time" id="nuevoInicio" placeholder="Inicio" style="width:100px;">
+                <input type="time" id="nuevoFin" placeholder="Fin" style="width:100px;">
+                <input type="number" min="0" step="0.1" id="nuevoHoras" placeholder="Horas" style="width:80px;">
+                <button type="button" id="addTramoBtn" style="width:100px;">Insertar</button>
+            </div>
             <div class="msg" id="msgRegistro"></div>
+            <table id="tablaTramos" style="width:100%; border-collapse:collapse; margin-bottom:16px;">
+                <thead>
+                    <tr style="background:#eee;">
+                        <th style="padding:6px; border:1px solid #ccc;">Inicio</th>
+                        <th style="padding:6px; border:1px solid #ccc;">Fin</th>
+                        <th style="padding:6px; border:1px solid #ccc;">Horas</th>
+                        <th style="padding:6px; border:1px solid #ccc;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyTramos"></tbody>
+            </table>
             <button type="submit">Guardar registro</button>
         </form>
         <button onclick="window.location.href='dashboard.html'" style="margin-top:16px;">Volver al dashboard</button>
-        <div class="tramos-list" id="tramosList"></div>
     </div>
     <script src="../js/registro_horas.js"></script>
 </body>

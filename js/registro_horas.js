@@ -1,3 +1,27 @@
+// Cargar tramos existentes al cambiar cliente o fecha
+document.getElementById('clienteSelect').addEventListener('change', cargarTramosExistentes);
+document.getElementById('fecha').addEventListener('change', cargarTramosExistentes);
+
+function cargarTramosExistentes() {
+    const cliente = document.getElementById('clienteSelect').value;
+    const fecha = document.getElementById('fecha').value;
+    if (!cliente || !fecha) {
+        tramos = [];
+        renderTramos();
+        return;
+    }
+    fetch('../data/horasClientes.json')
+        .then(resp => resp.json())
+        .then(registros => {
+            const registro = registros.find(r => r.cliente === cliente && r.fecha === fecha);
+            tramos = registro ? [...registro.tramos] : [];
+            renderTramos();
+        })
+        .catch(() => {
+            tramos = [];
+            renderTramos();
+        });
+}
 // registro_horas.js - Lógica para registrar horas por cliente y día
 
 let tramos = [];
@@ -67,7 +91,15 @@ document.addEventListener('click', function(e) {
     if(e.target && e.target.id === 'addTramoBtn') {
         const inicio = document.getElementById('nuevoInicio').value;
         const fin = document.getElementById('nuevoFin').value;
-        const horas = document.getElementById('nuevoHoras').value;
+        let horas = document.getElementById('nuevoHoras').value;
+        // Si hay inicio y fin, calcular horas automáticamente
+        if(inicio && fin) {
+            const [h1, m1] = inicio.split(':').map(Number);
+            const [h2, m2] = fin.split(':').map(Number);
+            let total = (h2*60 + m2) - (h1*60 + m1);
+            if(total < 0) total += 24*60; // por si cruza medianoche
+            horas = (total/60).toFixed(2);
+        }
         if(!inicio && !fin && !horas) return;
         tramos.push({ inicio, fin, horas });
         document.getElementById('nuevoInicio').value = '';
