@@ -45,3 +45,4 @@ document.getElementById('altaClienteForm').onsubmit = async function(e) {
         msg.style.color = '#c00';
     }
 };
+
