@@ -43,26 +43,23 @@ async function cargarClientes() {
     } catch {}
 }
 
-// Renderizar tramos horarios y lista de tramos agregados
+// Renderizar tramos en la tabla tipo Excel
 function renderTramos() {
-    const container = document.getElementById('tramosContainer');
-    container.innerHTML = '';
-    // Formulario para agregar tramo
-    container.innerHTML += `<div class="tramo-item">
-        <label>Hora inicio: <input type="time" id="nuevoInicio"></label>
-        <label>Hora fin: <input type="time" id="nuevoFin"></label>
-        <label>Horas totales: <input type="number" min="0" step="0.1" id="nuevoHoras"></label>
-        <button type="button" id="addTramoBtn">Agregar tramo</button>
-    </div>`;
-    // Lista de tramos agregados
-    const tramosList = document.getElementById('tramosList');
-    tramosList.innerHTML = '';
+    const tbody = document.getElementById('tbodyTramos');
+    if (!tbody) return;
+    tbody.innerHTML = '';
     tramos.forEach((tramo, idx) => {
-        tramosList.innerHTML += `<div class="tramo-item">
-            <b>Tramo ${idx+1}:</b> Inicio: ${tramo.inicio || '-'} | Fin: ${tramo.fin || '-'} | Horas: ${tramo.horas || '-'}
-            <button type="button" onclick="editarTramo(${idx})">Editar</button>
-            <button type="button" onclick="eliminarTramo(${idx})">Eliminar</button>
-        </div>`;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td style='padding:6px; border:1px solid #ccc;'>${tramo.inicio || '-'}</td>
+            <td style='padding:6px; border:1px solid #ccc;'>${tramo.fin || '-'}</td>
+            <td style='padding:6px; border:1px solid #ccc;'>${tramo.horas || '-'}</td>
+            <td style='padding:6px; border:1px solid #ccc;'>
+                <button type='button' onclick='editarTramo(${idx})'>Editar</button>
+                <button type='button' onclick='eliminarTramo(${idx})'>Eliminar</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
     });
 }
 
