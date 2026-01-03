@@ -7,6 +7,13 @@
     <title>Informes de Horas</title>
     <link rel="stylesheet" href="../css/main.css">
     <style>
+                @media print {
+                    @page {
+                        margin-top: 1cm;
+                        margin-bottom: 1cm;
+                    }
+                    body { margin: 0; }
+                }
         .informes-container { max-width: 900px; margin: 60px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 32px; }
         .informes-container h2 { margin-bottom: 24px; }
         .informes-container select, .informes-container input { margin-bottom: 12px; padding: 8px; border-radius: 4px; border: 1px solid #ccc; }
