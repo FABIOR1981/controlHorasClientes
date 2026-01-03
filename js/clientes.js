@@ -130,7 +130,7 @@ setTimeout(() => {
     }
 }, 1000);
 
-async function guardarClientes() {
+
 async function guardarClientes() {
     await fetch('/.netlify/functions/update-clientes', {
         method: 'POST',
