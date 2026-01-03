@@ -82,18 +82,20 @@ document.getElementById('altaClienteForm').onsubmit = async function(e) {
         msg.textContent = 'Cliente guardado correctamente.';
         msg.style.color = '#080';
     }
-    // Llenar el combo de rubros desde config.js
-    window.addEventListener('DOMContentLoaded', () => {
-        if (window.config && Array.isArray(window.config.rubros)) {
-            const rubroSelect = document.getElementById('rubroCliente');
-            window.config.rubros.forEach(rubro => {
-                const opt = document.createElement('option');
-                opt.value = rubro;
-                opt.textContent = rubro;
-                rubroSelect.appendChild(opt);
-            });
-        }
-    });
+// Llenar el combo de rubros desde config.js
+window.addEventListener('DOMContentLoaded', () => {
+    if (window.config && Array.isArray(window.config.rubros)) {
+        const rubroSelect = document.getElementById('rubroCliente');
+        // Evitar duplicados si se recarga el DOM
+        rubroSelect.innerHTML = '<option value="">Seleccione un rubro</option>';
+        window.config.rubros.forEach(rubro => {
+            const opt = document.createElement('option');
+            opt.value = rubro;
+            opt.textContent = rubro;
+            rubroSelect.appendChild(opt);
+        });
+    }
+});
     document.getElementById('altaClienteForm').reset();
     renderTablaClientes();
 }
