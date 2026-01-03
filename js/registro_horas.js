@@ -93,9 +93,11 @@ document.addEventListener('click', function(e) {
         if(inicio && fin) {
             const [h1, m1] = inicio.split(':').map(Number);
             const [h2, m2] = fin.split(':').map(Number);
-            let total = (h2*60 + m2) - (h1*60 + m1);
-            if(total < 0) total += 24*60; // por si cruza medianoche
-            horas = (total/60).toFixed(2);
+            let totalMin = (h2*60 + m2) - (h1*60 + m1);
+            if(totalMin < 0) totalMin += 24*60; // por si cruza medianoche
+            const horasEnteras = Math.floor(totalMin / 60);
+            const minutos = totalMin % 60;
+            horas = `${horasEnteras}:${minutos.toString().padStart(2,'0')}`;
         }
         if(!inicio && !fin && !horas) return;
         tramos.push({ inicio, fin, horas });
