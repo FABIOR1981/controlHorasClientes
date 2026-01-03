@@ -100,10 +100,7 @@ document.getElementById('formInforme').onsubmit = async function(e) {
         // Mostrar total del cliente en formato HH:MM
         let totalClienteStr = Math.floor(totalCliente/60).toString().padStart(2,'0') + ':' + (totalCliente%60).toString().padStart(2,'0');
         html += `<tr class='total-row'><td colspan='2'>Total ${cliente}</td><td>${totalClienteStr}</td></tr>`;
-            html += `<tr><td>${r.fecha}</td><td>${tramosHtml}</td><td>${totalDia.toFixed(2)}</td></tr>`;
-            totalCliente += totalDia;
-        });
-        html += `<tr class='total-row'><td colspan='2'>Total ${cliente}</td><td>${totalCliente.toFixed(2)}</td></tr>`;
+        // (Líneas duplicadas eliminadas)
         html += '</tbody></table>';
     });
     resultado.innerHTML = html;
