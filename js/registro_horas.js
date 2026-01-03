@@ -34,7 +34,7 @@ async function cargarClientes() {
         const resp = await fetch('../data/listaClientes.json');
         const clientes = await resp.json();
         clientes.sort((a, b) => a.nombre.localeCompare(b.nombre));
-        clientes.forEach(c => {
+        clientes.filter(c => c.activo !== false).forEach(c => {
             const opt = document.createElement('option');
             opt.value = c.nombre;
             opt.textContent = c.nombre;
