@@ -1,0 +1,12 @@
+{
+  "name": "controlhorasclientes",
+  "version": "1.0.0",
+  "description": "Sistema de control de horas por cliente",
+  "main": "index.html",
+  "scripts": {},
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  },
+  "author": "",
+  "license": "ISC"
+}
