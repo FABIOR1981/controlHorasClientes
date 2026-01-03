@@ -98,25 +98,21 @@ document.getElementById('altaClienteForm').onsubmit = async function(e) {
 
 // Llenar el combo de rubros desde config.js (funciona si el DOM ya está cargado o no)
 function populateRubros() {
-    console.log('populateRubros llamada, window.config:', window.config);
     if (window.config && Array.isArray(window.config.rubros) && window.config.rubros.length > 0) {
         const rubroSelect = document.getElementById('rubroCliente');
         if (!rubroSelect) {
-            console.warn('No se encontró el select #rubroCliente en el DOM');
             return;
         }
         // Evitar duplicados si se recarga el DOM
         rubroSelect.innerHTML = '<option value="">Seleccione un rubro</option>';
         window.config.rubros.forEach(rubro => {
-            console.log('Agregando rubro:', rubro);
             const opt = document.createElement('option');
             opt.value = rubro;
             opt.textContent = rubro;
             rubroSelect.appendChild(opt);
         });
-        console.log('rubros poblados');
     } else {
-        console.warn('No se encontró window.config.rubros o está vacío');
+        // No se encontró window.config.rubros o está vacío
     }
 }
 
@@ -134,7 +130,6 @@ if (document.readyState === 'loading') {
 setTimeout(() => {
     const select = document.getElementById('rubroCliente');
     if (select && select.options.length <= 1) {
-        console.warn('select #rubroCliente aún vacío; reintentando populateRubros');
         populateRubros();
     }
 }, 1000);
