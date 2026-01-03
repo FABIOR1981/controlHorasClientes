@@ -1,3 +1,31 @@
+/* Restaurar estilos de estructura y tabla */
+.clientes-container {
+    max-width: 600px;
+    margin: 60px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 32px;
+}
+.clientes-container h2 {
+    margin-bottom: 24px;
+}
+.tabla-clientes {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 24px;
+}
+.tabla-clientes th, .tabla-clientes td {
+    border: 1px solid #ccc;
+    padding: 6px;
+    text-align: left;
+}
+.tabla-clientes th {
+    background: #eee;
+}
+.inactivo {
+    color: #c00;
+}
 /* clientes.css - Estilos específicos para clientes.html */
 .clientes-container input, .clientes-container select {
     width: 100%;
