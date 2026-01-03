@@ -39,18 +39,21 @@ document.getElementById('formInforme').onsubmit = async function(e) {
         resultado.innerHTML = '<p>No hay registros para el periodo seleccionado.</p>';
         return;
     }
-    // Agrupar por cliente y fecha
+    // Agrupar por cliente y fecha, y ordenar
     let html = '';
     const clientesAgrupados = {};
     registros.forEach(r => {
         if(!clientesAgrupados[r.cliente]) clientesAgrupados[r.cliente] = [];
         clientesAgrupados[r.cliente].push(r);
     });
-    Object.keys(clientesAgrupados).forEach(cliente => {
+    // Ordenar clientes alfabéticamente
+    const clientesOrdenados = Object.keys(clientesAgrupados).sort((a, b) => a.localeCompare(b));
+    clientesOrdenados.forEach(cliente => {
         html += `<h3>Cliente: ${cliente}</h3>`;
         html += `<table class='tabla-informe'><thead><tr><th>Fecha</th><th>Tramos</th><th>Total horas</th></tr></thead><tbody>`;
         let totalCliente = 0;
-        clientesAgrupados[cliente].forEach(r => {
+        // Ordenar registros por fecha
+        clientesAgrupados[cliente].sort((a, b) => a.fecha.localeCompare(b.fecha)).forEach(r => {
             let tramosHtml = '';
             let totalDia = 0;
             r.tramos.forEach(t => {
