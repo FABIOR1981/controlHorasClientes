@@ -12,5 +12,25 @@
     "nombre": "Montaña",
     "contacto": "12345678933",
     "activo": true
+  },
+  {
+    "nombre": "Soluciones Creativas",
+    "contacto": "solcrea@correo.com",
+    "activo": true
+  },
+  {
+    "nombre": "Distribuidora El Faro",
+    "contacto": "099123456",
+    "activo": true
+  },
+  {
+    "nombre": "Consultora MBTI",
+    "contacto": "mbti@consultora.com",
+    "activo": true
+  },
+  {
+    "nombre": "Cliente Prueba",
+    "contacto": "prueba@correo.com",
+    "activo": false
   }
 ]
