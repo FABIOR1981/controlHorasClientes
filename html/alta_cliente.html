@@ -1,0 +1,30 @@
+<!-- alta_cliente.html - Alta de nuevos clientes para controlHorasClientes -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alta de Cliente</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .alta-cliente-container { max-width: 400px; margin: 60px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 32px; }
+        .alta-cliente-container h2 { margin-bottom: 24px; }
+        .alta-cliente-container input { width: 100%; margin-bottom: 16px; padding: 8px; border-radius: 4px; border: 1px solid #ccc; }
+        .alta-cliente-container button { width: 100%; padding: 10px; background: #1976d2; color: #fff; border: none; border-radius: 4px; font-size: 16px; }
+        .alta-cliente-container .msg { margin-bottom: 12px; }
+    </style>
+</head>
+<body>
+    <div class="alta-cliente-container">
+        <h2>Alta de Nuevo Cliente</h2>
+        <form id="altaClienteForm">
+            <input type="text" id="nombreCliente" placeholder="Nombre del cliente" required autofocus>
+            <input type="text" id="contactoCliente" placeholder="Contacto (opcional)">
+            <div class="msg" id="msgAlta"></div>
+            <button type="submit">Guardar cliente</button>
+        </form>
+        <button onclick="window.location.href='dashboard.html'" style="margin-top:16px;">Volver al dashboard</button>
+    </div>
+    <script src="../js/alta_cliente.js"></script>
+</body>
+</html>
