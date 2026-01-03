@@ -21,10 +21,19 @@ function renderTablaClientes() {
             <td class='${c.activo === false ? "inactivo" : ""}'>${c.activo === false ? 'Inactivo' : 'Activo'}</td>
             <td>
                 <button type='button' onclick='toggleActivo(${idx})'>${c.activo === false ? 'Reactivar' : 'Baja'}</button>
+                <button type='button' onclick='editarCliente(${idx})'>Editar</button>
             </td>
         `;
         tbody.appendChild(tr);
     });
+}
+// Editar cliente: carga los datos en el formulario para modificar
+window.editarCliente = function(idx) {
+    document.getElementById('nombreCliente').value = clientes[idx].nombre;
+    document.getElementById('contactoCliente').value = clientes[idx].contacto || '';
+    document.getElementById('altaClienteForm').setAttribute('data-edit', idx);
+    document.getElementById('msgAlta').textContent = 'Editando cliente. Modifica y guarda para actualizar.';
+    document.getElementById('msgAlta').style.color = '#1976d2';
 }
 
 window.toggleActivo = async function(idx) {
@@ -38,20 +47,37 @@ document.getElementById('altaClienteForm').onsubmit = async function(e) {
     const nombre = document.getElementById('nombreCliente').value.trim();
     const contacto = document.getElementById('contactoCliente').value.trim();
     const msg = document.getElementById('msgAlta');
+    const editIdx = this.getAttribute('data-edit');
     if(!nombre) {
         msg.textContent = 'El nombre es obligatorio.';
         msg.style.color = '#c00';
         return;
     }
-    if(clientes.some(c => c.nombre.toLowerCase() === nombre.toLowerCase())) {
-        msg.textContent = 'Ya existe un cliente con ese nombre.';
-        msg.style.color = '#c00';
-        return;
+    if(editIdx !== null) {
+        // Editar cliente existente
+        if(clientes.some((c, i) => i != editIdx && c.nombre.toLowerCase() === nombre.toLowerCase())) {
+            msg.textContent = 'Ya existe un cliente con ese nombre.';
+            msg.style.color = '#c00';
+            return;
+        }
+        clientes[editIdx].nombre = nombre;
+        clientes[editIdx].contacto = contacto;
+        await guardarClientes();
+        msg.textContent = 'Cliente actualizado correctamente.';
+        msg.style.color = '#080';
+        this.removeAttribute('data-edit');
+    } else {
+        // Alta nuevo cliente
+        if(clientes.some(c => c.nombre.toLowerCase() === nombre.toLowerCase())) {
+            msg.textContent = 'Ya existe un cliente con ese nombre.';
+            msg.style.color = '#c00';
+            return;
+        }
+        clientes.push({ nombre, contacto, activo: true });
+        await guardarClientes();
+        msg.textContent = 'Cliente guardado correctamente.';
+        msg.style.color = '#080';
     }
-    clientes.push({ nombre, contacto, activo: true });
-    await guardarClientes();
-    msg.textContent = 'Cliente guardado correctamente.';
-    msg.style.color = '#080';
     document.getElementById('altaClienteForm').reset();
     renderTablaClientes();
 }
