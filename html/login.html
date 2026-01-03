@@ -19,7 +19,7 @@
         <img src="../imagenes/logo_shalon.png" alt="Logo Shalon Morales" style="display:block; margin:0 auto 24px auto; max-width:180px;">
         <h2>Iniciar Sesión</h2>
         <form id="loginForm">
-            <input type="email" id="email" placeholder="Correo electrónico" required autofocus>
+                    <input type="text" id="documento" placeholder="Documento" required autofocus>
             <input type="password" id="contrasena" placeholder="Contraseña" required>
             <div class="error" id="loginError" style="display:none;"></div>
             <button type="submit">Ingresar</button>
@@ -29,15 +29,15 @@
     <script>
     document.getElementById('loginForm').onsubmit = async function(e) {
         e.preventDefault();
-        const email = document.getElementById('email').value;
-        const pass = document.getElementById('contrasena').value;
-        const usuario = await validarLogin(email, pass);
+                const documento = document.getElementById('documento').value;
+                const pass = document.getElementById('contrasena').value;
+                const usuario = await validarLogin(documento, pass);
         if(usuario) {
             // Guardar usuario en localStorage para mantener sesión
-            localStorage.setItem('usuarioLogueado', JSON.stringify({
-                email: usuario.email,
-                nombre: usuario.nombre,
-                rol: usuario.rol
+                    localStorage.setItem('usuarioLogueado', JSON.stringify({
+                        documento: usuario.documento,
+                        nombre: usuario.nombre,
+                        rol: usuario.rol
             }));
             window.location.href = 'dashboard.html';
         } else {

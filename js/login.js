@@ -9,11 +9,11 @@ async function sha256(texto) {
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-async function validarLogin(email, contrasena) {
+async function validarLogin(documento, contrasena) {
     const resp = await fetch('../data/usuarios.json');
     const usuarios = await resp.json();
     const hash = await sha256(contrasena);
-    const usuario = usuarios.find(u => u.email === email && u.contrasena === hash && u.activo);
+    const usuario = usuarios.find(u => u.documento === documento && u.contrasena === hash && u.activo);
     return usuario || null;
 }
 
