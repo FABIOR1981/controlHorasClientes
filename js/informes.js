@@ -58,19 +58,48 @@ document.getElementById('formInforme').onsubmit = async function(e) {
             let totalDia = 0;
             r.tramos.forEach(t => {
                 let horasMostrar = t.horas;
-                // Si hay inicio y fin, recalcular en formato decimal correcto
+                let minutosTotales = 0;
+                // Si hay inicio y fin, calcular minutos totales
                 if (t.inicio && t.fin) {
                     const [h1, m1] = t.inicio.split(':').map(Number);
                     const [h2, m2] = t.fin.split(':').map(Number);
-                    let totalMin = (h2*60 + m2) - (h1*60 + m1);
-                    if(totalMin < 0) totalMin += 24*60;
-                    const horas = Math.floor(totalMin / 60);
-                    const minutos = totalMin % 60;
-                    horasMostrar = `${horas}.${minutos.toString().padStart(2,'0')}`;
+                    minutosTotales = (h2*60 + m2) - (h1*60 + m1);
+                    if(minutosTotales < 0) minutosTotales += 24*60;
+                } else if (t.horas && t.horas.includes(':')) {
+                    // Si ya viene en formato HH:MM
+                    const [h, m] = t.horas.split(':').map(Number);
+                    minutosTotales = h*60 + m;
+                } else if (t.horas) {
+                    // Si viene en decimal (ej: 1.5, 2.25)
+                    let partes = t.horas.split('.');
+                    let h = parseInt(partes[0] || '0');
+                    let m = parseInt(partes[1] || '0');
+                    if (m > 0) {
+                        // Si los decimales son minutos (ej: 1.30 = 1h 30m)
+                        if (m < 60) {
+                            minutosTotales = h*60 + m;
+                        } else {
+                            // Si los decimales son decimales (ej: 1.5 = 1h 30m)
+                            minutosTotales = h*60 + Math.round(60 * (parseFloat('0.'+m)));
+                        }
+                    } else {
+                        minutosTotales = h*60;
+                    }
                 }
-                tramosHtml += `${t.inicio || '-'} - ${t.fin || '-'} (${horasMostrar || '-'})<br>`;
-                totalDia += parseFloat(horasMostrar) || 0;
+                // Formatear a HH:MM
+                let horasFinal = Math.floor(minutosTotales/60).toString().padStart(2,'0') + ':' + (minutosTotales%60).toString().padStart(2,'0');
+                if (!t.inicio && !t.fin && !t.horas) horasFinal = '-';
+                tramosHtml += `${t.inicio || '-'} - ${t.fin || '-'} (${horasFinal})<br>`;
+                totalDia += minutosTotales;
             });
+            // Mostrar total del día en formato HH:MM
+            let totalDiaStr = Math.floor(totalDia/60).toString().padStart(2,'0') + ':' + (totalDia%60).toString().padStart(2,'0');
+            html += `<tr><td>${r.fecha}</td><td>${tramosHtml}</td><td>${totalDiaStr}</td></tr>`;
+            totalCliente += totalDia;
+        });
+        // Mostrar total del cliente en formato HH:MM
+        let totalClienteStr = Math.floor(totalCliente/60).toString().padStart(2,'0') + ':' + (totalCliente%60).toString().padStart(2,'0');
+        html += `<tr class='total-row'><td colspan='2'>Total ${cliente}</td><td>${totalClienteStr}</td></tr>`;
             html += `<tr><td>${r.fecha}</td><td>${tramosHtml}</td><td>${totalDia.toFixed(2)}</td></tr>`;
             totalCliente += totalDia;
         });
