@@ -35,5 +35,21 @@
         "horas": "2"
       }
     ]
+  },
+  {
+    "cliente": "Gusano Manzana",
+    "fecha": "2026-01-03",
+    "tramos": [
+      {
+        "inicio": "10:00",
+        "fin": "14:30",
+        "horas": "4:30"
+      },
+      {
+        "inicio": "17:00",
+        "fin": "19:00",
+        "horas": "2:00"
+      }
+    ]
   }
 ]
