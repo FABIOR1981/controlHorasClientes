@@ -19,18 +19,37 @@ async function cargarClientes() {
     } catch {}
 }
 
-// Renderizar tramos horarios
+// Renderizar tramos horarios y lista de tramos agregados
 function renderTramos() {
     const container = document.getElementById('tramosContainer');
     container.innerHTML = '';
+    // Formulario para agregar tramo
+    container.innerHTML += `<div class="tramo-item">
+        <label>Hora inicio: <input type="time" id="nuevoInicio"></label>
+        <label>Hora fin: <input type="time" id="nuevoFin"></label>
+        <label>Horas totales: <input type="number" min="0" step="0.1" id="nuevoHoras"></label>
+        <button type="button" id="addTramoBtn">Agregar tramo</button>
+    </div>`;
+    // Lista de tramos agregados
+    const tramosList = document.getElementById('tramosList');
+    tramosList.innerHTML = '';
     tramos.forEach((tramo, idx) => {
-        container.innerHTML += `<div class="tramo-item">
-            <label>Hora inicio: <input type="time" value="${tramo.inicio}" onchange="actualizarTramo(${idx}, 'inicio', this.value)"></label>
-            <label>Hora fin: <input type="time" value="${tramo.fin}" onchange="actualizarTramo(${idx}, 'fin', this.value)"></label>
-            <label>Horas totales: <input type="number" min="0" step="0.1" value="${tramo.horas}" onchange="actualizarTramo(${idx}, 'horas', this.value)"></label>
+        tramosList.innerHTML += `<div class="tramo-item">
+            <b>Tramo ${idx+1}:</b> Inicio: ${tramo.inicio || '-'} | Fin: ${tramo.fin || '-'} | Horas: ${tramo.horas || '-'}
+            <button type="button" onclick="editarTramo(${idx})">Editar</button>
             <button type="button" onclick="eliminarTramo(${idx})">Eliminar</button>
         </div>`;
     });
+}
+
+window.editarTramo = function(idx) {
+    const tramo = tramos[idx];
+    document.getElementById('nuevoInicio').value = tramo.inicio;
+    document.getElementById('nuevoFin').value = tramo.fin;
+    document.getElementById('nuevoHoras').value = tramo.horas;
+    // Al editar, eliminar el tramo actual para que se re-agregue
+    tramos.splice(idx, 1);
+    renderTramos();
 }
 
 window.actualizarTramo = function(idx, campo, valor) {
@@ -43,10 +62,20 @@ window.eliminarTramo = function(idx) {
     renderTramos();
 }
 
-document.getElementById('agregarTramoBtn').onclick = function() {
-    tramos.push({ inicio: '', fin: '', horas: '' });
-    renderTramos();
-};
+
+document.addEventListener('click', function(e) {
+    if(e.target && e.target.id === 'addTramoBtn') {
+        const inicio = document.getElementById('nuevoInicio').value;
+        const fin = document.getElementById('nuevoFin').value;
+        const horas = document.getElementById('nuevoHoras').value;
+        if(!inicio && !fin && !horas) return;
+        tramos.push({ inicio, fin, horas });
+        document.getElementById('nuevoInicio').value = '';
+        document.getElementById('nuevoFin').value = '';
+        document.getElementById('nuevoHoras').value = '';
+        renderTramos();
+    }
+});
 
 document.getElementById('registroHorasForm').onsubmit = async function(e) {
     e.preventDefault();
