@@ -2,16 +2,8 @@
 
 let clientes = [];
 
+function renderTablaClientes() {
     const tbody = document.getElementById('tbodyClientes');
-
-async function guardarClientes() {
-    await fetch('/.netlify/functions/update-clientes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ data: clientes })
-    });
-}
-
     tbody.innerHTML = '';
     clientes.forEach((c, idx) => {
         const tr = document.createElement('tr');
@@ -24,6 +16,14 @@ async function guardarClientes() {
             </td>
         `;
         tbody.appendChild(tr);
+    });
+}
+
+async function guardarClientes() {
+    await fetch('/.netlify/functions/update-clientes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: clientes })
     });
 }
 // Editar cliente: carga los datos en el formulario para modificar
