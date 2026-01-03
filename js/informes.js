@@ -57,8 +57,19 @@ document.getElementById('formInforme').onsubmit = async function(e) {
             let tramosHtml = '';
             let totalDia = 0;
             r.tramos.forEach(t => {
-                tramosHtml += `${t.inicio || '-'} - ${t.fin || '-'} (${t.horas || '-'})<br>`;
-                totalDia += parseFloat(t.horas) || 0;
+                let horasMostrar = t.horas;
+                // Si hay inicio y fin, recalcular en formato decimal correcto
+                if (t.inicio && t.fin) {
+                    const [h1, m1] = t.inicio.split(':').map(Number);
+                    const [h2, m2] = t.fin.split(':').map(Number);
+                    let totalMin = (h2*60 + m2) - (h1*60 + m1);
+                    if(totalMin < 0) totalMin += 24*60;
+                    const horas = Math.floor(totalMin / 60);
+                    const minutos = totalMin % 60;
+                    horasMostrar = `${horas}.${minutos.toString().padStart(2,'0')}`;
+                }
+                tramosHtml += `${t.inicio || '-'} - ${t.fin || '-'} (${horasMostrar || '-'})<br>`;
+                totalDia += parseFloat(horasMostrar) || 0;
             });
             html += `<tr><td>${r.fecha}</td><td>${tramosHtml}</td><td>${totalDia.toFixed(2)}</td></tr>`;
             totalCliente += totalDia;
