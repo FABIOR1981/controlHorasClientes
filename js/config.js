@@ -16,4 +16,4 @@ window.config = {
 };
 
 // Debug: confirmar carga de config
-console.log('config.js cargado, window.config:', window.config);
+//console.log('config.js cargado, window.config:', window.config);
