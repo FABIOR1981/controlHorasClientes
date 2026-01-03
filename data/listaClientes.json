@@ -37,5 +37,10 @@
     "nombre": "nuevo cliente",
     "rubro": "Exportador",
     "activo": true
+  },
+  {
+    "nombre": "TREN",
+    "rubro": "Despachante de Aduana",
+    "activo": true
   }
 ]
