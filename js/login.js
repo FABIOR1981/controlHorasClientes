@@ -10,7 +10,7 @@ async function sha256(texto) {
 }
 
 async function validarLogin(email, contrasena) {
-    const resp = await fetch('data/usuarios.json');
+    const resp = await fetch('../data/usuarios.json');
     const usuarios = await resp.json();
     const hash = await sha256(contrasena);
     const usuario = usuarios.find(u => u.email === email && u.contrasena === hash && u.activo);
