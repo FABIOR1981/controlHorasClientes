@@ -84,16 +84,22 @@ document.getElementById('altaClienteForm').onsubmit = async function(e) {
     }
 // Llenar el combo de rubros desde config.js
 window.addEventListener('DOMContentLoaded', () => {
+    console.log('DOMContentLoaded');
+    console.log('window.config:', window.config);
     if (window.config && Array.isArray(window.config.rubros)) {
         const rubroSelect = document.getElementById('rubroCliente');
+        console.log('rubroSelect:', rubroSelect);
         // Evitar duplicados si se recarga el DOM
         rubroSelect.innerHTML = '<option value="">Seleccione un rubro</option>';
         window.config.rubros.forEach(rubro => {
+            console.log('Agregando rubro:', rubro);
             const opt = document.createElement('option');
             opt.value = rubro;
             opt.textContent = rubro;
             rubroSelect.appendChild(opt);
         });
+    } else {
+        console.log('No se encontró window.config.rubros');
     }
 });
     document.getElementById('altaClienteForm').reset();
