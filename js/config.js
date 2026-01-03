@@ -1,7 +1,7 @@
 // Archivo de configuración para controlHorasClientes
 // Modificar los valores según corresponda
 
-const config = {
+window.config = {
         rubros: [
             "Importador",
             "Exportador",
