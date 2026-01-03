@@ -3,103 +3,238 @@
     "cliente": "Pepe",
     "fecha": "2026-01-02",
     "tramos": [
-      { "inicio": "", "fin": "", "horas": "3" },
-      { "inicio": "", "fin": "", "horas": "4" },
-      { "inicio": "09:00", "fin": "14:00", "horas": "5.00" }
+      {
+        "inicio": "",
+        "fin": "",
+        "horas": "3"
+      },
+      {
+        "inicio": "",
+        "fin": "",
+        "horas": "4"
+      },
+      {
+        "inicio": "09:00",
+        "fin": "14:00",
+        "horas": "5.00"
+      }
     ]
   },
   {
     "cliente": "Gusano Manzana",
     "fecha": "2026-01-03",
     "tramos": [
-      { "inicio": "10:00", "fin": "14:30", "horas": "4.30" },
-      { "inicio": "17:00", "fin": "19:00", "horas": "2.00" }
+      {
+        "inicio": "10:00",
+        "fin": "14:30",
+        "horas": "4.30"
+      },
+      {
+        "inicio": "17:00",
+        "fin": "19:00",
+        "horas": "2.00"
+      }
     ]
   },
   {
     "cliente": "Soluciones Creativas",
     "fecha": "2026-01-05",
     "tramos": [
-      { "inicio": "08:00", "fin": "12:00", "horas": "4.00" },
-      { "inicio": "13:00", "fin": "17:00", "horas": "4.00" }
+      {
+        "inicio": "08:00",
+        "fin": "12:00",
+        "horas": "4.00"
+      },
+      {
+        "inicio": "13:00",
+        "fin": "17:00",
+        "horas": "4.00"
+      }
     ]
   },
   {
     "cliente": "Distribuidora El Faro",
     "fecha": "2026-01-10",
     "tramos": [
-      { "inicio": "09:00", "fin": "13:00", "horas": "4.00" },
-      { "inicio": "15:00", "fin": "18:00", "horas": "3.00" }
+      {
+        "inicio": "09:00",
+        "fin": "13:00",
+        "horas": "4.00"
+      },
+      {
+        "inicio": "15:00",
+        "fin": "18:00",
+        "horas": "3.00"
+      }
     ]
   },
   {
     "cliente": "Consultora MBTI",
     "fecha": "2026-01-15",
     "tramos": [
-      { "inicio": "08:30", "fin": "12:30", "horas": "4.00" },
-      { "inicio": "14:00", "fin": "19:00", "horas": "5.00" }
+      {
+        "inicio": "08:30",
+        "fin": "12:30",
+        "horas": "4.00"
+      },
+      {
+        "inicio": "14:00",
+        "fin": "19:00",
+        "horas": "5.00"
+      }
     ]
   },
   {
     "cliente": "Cliente Prueba",
     "fecha": "2026-01-20",
     "tramos": [
-      { "inicio": "10:00", "fin": "13:00", "horas": "3.00" },
-      { "inicio": "18:00", "fin": "21:00", "horas": "3.00" }
+      {
+        "inicio": "10:00",
+        "fin": "13:00",
+        "horas": "3.00"
+      },
+      {
+        "inicio": "18:00",
+        "fin": "21:00",
+        "horas": "3.00"
+      }
     ]
   },
   {
     "cliente": "Soluciones Creativas",
     "fecha": "2026-01-12",
     "tramos": [
-      { "inicio": "08:00", "fin": "10:00", "horas": "2.00" },
-      { "inicio": "10:30", "fin": "12:00", "horas": "1.50" },
-      { "inicio": "13:00", "fin": "15:00", "horas": "2.00" },
-      { "inicio": "", "fin": "", "horas": "2.50" }
+      {
+        "inicio": "08:00",
+        "fin": "10:00",
+        "horas": "2.00"
+      },
+      {
+        "inicio": "10:30",
+        "fin": "12:00",
+        "horas": "1.50"
+      },
+      {
+        "inicio": "13:00",
+        "fin": "15:00",
+        "horas": "2.00"
+      },
+      {
+        "inicio": "",
+        "fin": "",
+        "horas": "2.50"
+      }
     ]
   },
   {
     "cliente": "Distribuidora El Faro",
     "fecha": "2026-01-18",
     "tramos": [
-      { "inicio": "09:00", "fin": "11:00", "horas": "2.00" },
-      { "inicio": "11:30", "fin": "13:00", "horas": "1.50" },
-      { "inicio": "14:00", "fin": "16:00", "horas": "2.00" }
+      {
+        "inicio": "09:00",
+        "fin": "11:00",
+        "horas": "2.00"
+      },
+      {
+        "inicio": "11:30",
+        "fin": "13:00",
+        "horas": "1.50"
+      },
+      {
+        "inicio": "14:00",
+        "fin": "16:00",
+        "horas": "2.00"
+      }
     ]
   },
   {
     "cliente": "Consultora MBTI",
     "fecha": "2026-01-22",
     "tramos": [
-      { "inicio": "08:30", "fin": "10:30", "horas": "2.00" },
-      { "inicio": "11:00", "fin": "13:00", "horas": "2.00" },
-      { "inicio": "", "fin": "", "horas": "3.00" }
+      {
+        "inicio": "08:30",
+        "fin": "10:30",
+        "horas": "2.00"
+      },
+      {
+        "inicio": "11:00",
+        "fin": "13:00",
+        "horas": "2.00"
+      },
+      {
+        "inicio": "",
+        "fin": "",
+        "horas": "3.00"
+      }
     ]
   },
   {
     "cliente": "Pepe",
     "fecha": "2026-01-25",
     "tramos": [
-      { "inicio": "08:00", "fin": "12:00", "horas": "4.00" },
-      { "inicio": "", "fin": "", "horas": "2.00" }
+      {
+        "inicio": "08:00",
+        "fin": "12:00",
+        "horas": "4.00"
+      },
+      {
+        "inicio": "",
+        "fin": "",
+        "horas": "2.00"
+      }
     ]
   },
   {
     "cliente": "Cliente Prueba",
     "fecha": "2026-01-28",
     "tramos": [
-      { "inicio": "08:00", "fin": "10:00", "horas": "2.00" },
-      { "inicio": "10:30", "fin": "12:00", "horas": "1.50" },
-      { "inicio": "13:00", "fin": "15:00", "horas": "2.00" }
+      {
+        "inicio": "08:00",
+        "fin": "10:00",
+        "horas": "2.00"
+      },
+      {
+        "inicio": "10:30",
+        "fin": "12:00",
+        "horas": "1.50"
+      },
+      {
+        "inicio": "13:00",
+        "fin": "15:00",
+        "horas": "2.00"
+      }
     ]
   },
   {
     "cliente": "Gusano Manzana",
     "fecha": "2026-01-30",
     "tramos": [
-      { "inicio": "08:00", "fin": "11:00", "horas": "3.00" },
-      { "inicio": "12:00", "fin": "14:00", "horas": "2.00" },
-      { "inicio": "15:00", "fin": "17:00", "horas": "2.00" }
+      {
+        "inicio": "08:00",
+        "fin": "11:00",
+        "horas": "3.00"
+      },
+      {
+        "inicio": "12:00",
+        "fin": "14:00",
+        "horas": "2.00"
+      },
+      {
+        "inicio": "15:00",
+        "fin": "17:00",
+        "horas": "2.00"
+      }
+    ]
+  },
+  {
+    "cliente": "Consultora MBTI",
+    "fecha": "2026-01-02",
+    "tramos": [
+      {
+        "inicio": "",
+        "fin": "",
+        "horas": "2"
+      }
     ]
   }
 ]
