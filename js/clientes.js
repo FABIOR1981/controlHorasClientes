@@ -2,6 +2,15 @@
 
 let clientes = [];
 
+// Cargar clientes desde el archivo JSON y renderizar la tabla
+async function cargarClientes() {
+    try {
+        const resp = await fetch('../data/listaClientes.json');
+        clientes = await resp.json();
+    } catch { clientes = []; }
+    renderTablaClientes();
+}
+
 function renderTablaClientes() {
     const tbody = document.getElementById('tbodyClientes');
     tbody.innerHTML = '';
