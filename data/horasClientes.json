@@ -269,5 +269,16 @@
         "horas": "5:00"
       }
     ]
+  },
+  {
+    "cliente": "Consultora MBTI",
+    "fecha": "2026-01-05",
+    "tramos": [
+      {
+        "inicio": "21:30",
+        "fin": "12:30",
+        "horas": "15:00"
+      }
+    ]
   }
 ]
