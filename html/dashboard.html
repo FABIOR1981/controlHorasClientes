@@ -1,0 +1,36 @@
+<!-- dashboard.html - Panel principal para controlHorasClientes -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Control Horas Clientes</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .dashboard-container { max-width: 600px; margin: 60px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 32px; text-align: center; }
+        .dashboard-container h1 { margin-bottom: 32px; }
+        .dashboard-btn { display: block; width: 100%; margin: 16px 0; padding: 16px; font-size: 18px; border-radius: 6px; border: none; background: #1976d2; color: #fff; cursor: pointer; transition: background 0.2s; }
+        .dashboard-btn:hover { background: #125ea2; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Panel Principal</h1>
+        <button class="dashboard-btn" onclick="window.location.href='alta_cliente.html'">Dar de alta nuevo cliente</button>
+        <button class="dashboard-btn" onclick="window.location.href='registro_horas.html'">Registrar horas</button>
+        <button class="dashboard-btn" onclick="window.location.href='informes.html'">Informes</button>
+        <button class="dashboard-btn" id="logoutBtn">Cerrar sesión</button>
+    </div>
+    <script>
+    // Mostrar nombre de usuario si está logueado
+    const usuario = localStorage.getItem('usuarioLogueado');
+    if(!usuario) {
+        window.location.href = 'login.html';
+    }
+    document.getElementById('logoutBtn').onclick = function() {
+        localStorage.removeItem('usuarioLogueado');
+        window.location.href = 'login.html';
+    };
+    </script>
+</body>
+</html>

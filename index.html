@@ -8,13 +8,16 @@
 </head>
 <body>
     <div id="app">
+        <button id="logoutBtn" style="float:right; margin: 10px 0 0 0; display:none;">Cerrar sesión</button>
         <!-- Aquí irá la aplicación -->
     </div>
     <script src="js/config.js"></script>
     <script>
-    // Demo: Si no hay sesión, redirigir a login
+    // Si no hay sesión, redirigir a login
     if(!localStorage.getItem('usuarioLogueado')) {
         window.location.href = 'html/login.html';
+    } else {
+        window.location.href = 'html/dashboard.html';
     }
     </script>
     <!-- Agregar aquí los demás scripts principales -->

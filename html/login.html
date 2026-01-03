@@ -32,8 +32,13 @@
         const pass = document.getElementById('contrasena').value;
         const usuario = await validarLogin(email, pass);
         if(usuario) {
-            // Redirigir o mostrar pantalla principal
-            window.location.href = '../index.html';
+            // Guardar usuario en localStorage para mantener sesión
+            localStorage.setItem('usuarioLogueado', JSON.stringify({
+                email: usuario.email,
+                nombre: usuario.nombre,
+                rol: usuario.rol
+            }));
+            window.location.href = 'dashboard.html';
         } else {
             document.getElementById('loginError').textContent = 'Usuario o contraseña incorrectos';
             document.getElementById('loginError').style.display = 'block';
