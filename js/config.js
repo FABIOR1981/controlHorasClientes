@@ -2,6 +2,15 @@
 // Modificar los valores según corresponda
 
 const config = {
+        rubros: [
+            "Importador",
+            "Exportador",
+            "Despachante de Aduana",
+            "Comercio",
+            "Agente",
+            "Línea marítima",
+            "Aerolínea"
+        ],
     googleCalendarAccount: "", // Cuenta de Gmail para futura integración
     // Otros parámetros de configuración pueden agregarse aquí
 };

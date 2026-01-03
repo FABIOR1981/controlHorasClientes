@@ -17,7 +17,7 @@ function renderTablaClientes() {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${c.nombre}</td>
-            <td>${c.contacto || ''}</td>
+            <td>${c.rubro || ''}</td>
             <td class='${c.activo === false ? "inactivo" : ""}'>${c.activo === false ? 'Inactivo' : 'Activo'}</td>
             <td>
                 <button type='button' onclick='editarCliente(${idx})'>Editar</button>
@@ -29,7 +29,7 @@ function renderTablaClientes() {
 // Editar cliente: carga los datos en el formulario para modificar
 window.editarCliente = function(idx) {
     document.getElementById('nombreCliente').value = clientes[idx].nombre;
-    document.getElementById('contactoCliente').value = clientes[idx].contacto || '';
+    document.getElementById('rubroCliente').value = clientes[idx].rubro || '';
     document.getElementById('altaClienteForm').setAttribute('data-edit', idx);
     document.getElementById('msgAlta').textContent = 'Editando cliente. Modifica y guarda para actualizar.';
     document.getElementById('msgAlta').style.color = '#1976d2';
@@ -44,11 +44,16 @@ window.toggleActivo = async function(idx) {
 document.getElementById('altaClienteForm').onsubmit = async function(e) {
     e.preventDefault();
     const nombre = document.getElementById('nombreCliente').value.trim();
-    const contacto = document.getElementById('contactoCliente').value.trim();
+    const rubro = document.getElementById('rubroCliente').value;
     const msg = document.getElementById('msgAlta');
     const editIdx = this.getAttribute('data-edit');
     if(!nombre) {
         msg.textContent = 'El nombre es obligatorio.';
+        msg.style.color = '#c00';
+        return;
+    }
+    if(!rubro) {
+        msg.textContent = 'Debe seleccionar un rubro.';
         msg.style.color = '#c00';
         return;
     }
@@ -60,7 +65,7 @@ document.getElementById('altaClienteForm').onsubmit = async function(e) {
             return;
         }
         clientes[editIdx].nombre = nombre;
-        clientes[editIdx].contacto = contacto;
+        clientes[editIdx].rubro = rubro;
         await guardarClientes();
         msg.textContent = 'Cliente actualizado correctamente.';
         msg.style.color = '#080';
@@ -72,11 +77,23 @@ document.getElementById('altaClienteForm').onsubmit = async function(e) {
             msg.style.color = '#c00';
             return;
         }
-        clientes.push({ nombre, contacto, activo: true });
+        clientes.push({ nombre, rubro, activo: true });
         await guardarClientes();
         msg.textContent = 'Cliente guardado correctamente.';
         msg.style.color = '#080';
     }
+    // Llenar el combo de rubros desde config.js
+    window.addEventListener('DOMContentLoaded', () => {
+        if (window.config && Array.isArray(window.config.rubros)) {
+            const rubroSelect = document.getElementById('rubroCliente');
+            window.config.rubros.forEach(rubro => {
+                const opt = document.createElement('option');
+                opt.value = rubro;
+                opt.textContent = rubro;
+                rubroSelect.appendChild(opt);
+            });
+        }
+    });
     document.getElementById('altaClienteForm').reset();
     renderTablaClientes();
 }

@@ -23,13 +23,15 @@
         <h2>Clientes</h2>
         <form id="altaClienteForm">
             <input type="text" id="nombreCliente" placeholder="Nombre del cliente" required autofocus>
-            <input type="text" id="contactoCliente" placeholder="Contacto (opcional)">
+            <select id="rubroCliente" required>
+                <option value="">Seleccione un rubro</option>
+            </select>
             <div class="msg" id="msgAlta"></div>
             <button type="submit">Guardar cliente</button>
         </form>
         <table class="tabla-clientes">
             <thead>
-                <tr><th>Nombre</th><th>Contacto</th><th>Estado</th><th>Acciones</th></tr>
+                <tr><th>Nombre</th><th>Rubro</th><th>Estado</th><th>Acciones</th></tr>
             </thead>
             <tbody id="tbodyClientes"></tbody>
         </table>

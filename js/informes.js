@@ -50,7 +50,7 @@ document.getElementById('formInforme').onsubmit = async function(e) {
     const clientesOrdenados = Object.keys(clientesAgrupados).sort((a, b) => a.localeCompare(b));
     clientesOrdenados.forEach(cliente => {
         html += `<h3>Cliente: ${cliente}</h3>`;
-        html += `<table class='tabla-informe'><thead><tr><th>Fecha</th><th>Tramos</th><th>Total horas</th></tr></thead><tbody>`;
+        html += `<table class='tabla-informe'><thead><tr><th>Fecha</th><th>Carga Horaria</th><th>Total horas</th></tr></thead><tbody>`;
         let totalCliente = 0;
         // Ordenar registros por fecha
         clientesAgrupados[cliente].sort((a, b) => a.fecha.localeCompare(b.fecha)).forEach(r => {
