@@ -14,3 +14,6 @@ window.config = {
     googleCalendarAccount: "", // Cuenta de Gmail para futura integración
     // Otros parámetros de configuración pueden agregarse aquí
 };
+
+// Debug: confirmar carga de config
+console.log('config.js cargado, window.config:', window.config);
