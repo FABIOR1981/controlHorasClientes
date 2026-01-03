@@ -1,0 +1,35 @@
+<!-- registro_horas.html - Registro de horas por cliente y día -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Horas</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .registro-horas-container { max-width: 600px; margin: 60px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 32px; }
+        .registro-horas-container h2 { margin-bottom: 24px; }
+        .registro-horas-container select, .registro-horas-container input { width: 100%; margin-bottom: 16px; padding: 8px; border-radius: 4px; border: 1px solid #ccc; }
+        .registro-horas-container button { width: 100%; padding: 10px; background: #1976d2; color: #fff; border: none; border-radius: 4px; font-size: 16px; }
+        .registro-horas-container .msg { margin-bottom: 12px; }
+        .tramos-list { margin-top: 16px; }
+        .tramo-item { background: #f4f4f4; border-radius: 4px; padding: 8px; margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="registro-horas-container">
+        <h2>Registrar Horas</h2>
+        <form id="registroHorasForm">
+            <select id="clienteSelect" required></select>
+            <input type="date" id="fecha" required>
+            <div id="tramosContainer"></div>
+            <button type="button" id="agregarTramoBtn">Agregar tramo horario</button>
+            <div class="msg" id="msgRegistro"></div>
+            <button type="submit">Guardar registro</button>
+        </form>
+        <button onclick="window.location.href='dashboard.html'" style="margin-top:16px;">Volver al dashboard</button>
+        <div class="tramos-list" id="tramosList"></div>
+    </div>
+    <script src="../js/registro_horas.js"></script>
+</body>
+</html>
