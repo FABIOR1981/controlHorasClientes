@@ -92,14 +92,14 @@ document.addEventListener('click', function(e) {
         const fin = document.getElementById('nuevoFin').value;
         let horas = document.getElementById('nuevoHoras').value;
         const msg = document.getElementById('msgRegistro');
-        // Validar que la hora final no sea menor que la inicial
+        // Validar que la hora final sea estrictamente mayor que la inicial (no permite cruzar medianoche)
         if(inicio && fin) {
             const [h1, m1] = inicio.split(':').map(Number);
             const [h2, m2] = fin.split(':').map(Number);
             const minutosInicio = h1*60 + m1;
             const minutosFin = h2*60 + m2;
-            if(minutosFin < minutosInicio) {
-                msg.textContent = 'La hora final no puede ser menor que la hora inicial.';
+            if(minutosFin <= minutosInicio) {
+                msg.textContent = 'La hora final debe ser mayor que la hora inicial (no se permite cruzar medianoche).';
                 msg.style.color = '#c00';
                 return;
             }
