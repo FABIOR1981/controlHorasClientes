@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "cliente": "Pepe",
+    "fecha": "2026-01-02",
+    "tramos": [
+      {
+        "inicio": "",
+        "fin": "",
+        "horas": "3"
+      },
+      {
+        "inicio": "",
+        "fin": "",
+        "horas": "4"
+      }
+    ]
+  }
+]
