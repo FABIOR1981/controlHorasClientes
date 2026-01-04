@@ -1,0 +1,19 @@
+/* login.css - Estilos para el formulario de login */
+.login-box { max-width: 350px; margin: 80px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 32px; }
+.login-box h2 { margin-bottom: 24px; }
+.login-box input { width: 100%; margin-bottom: 16px; padding: 8px; border-radius: 4px; border: 1px solid #ccc; }
+.login-box button {
+    width: 100%;
+    padding: 10px;
+    background: #A5D6A7;
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: background 0.2s;
+}
+.login-box button:hover {
+    background: #125ea2;
+    color: #000;
+}
+.login-box .error { color: #c00; margin-bottom: 12px; }
