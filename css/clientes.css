@@ -1,3 +1,6 @@
+button {
+    color: #000;
+}
 /* Restaurar estilos de estructura y tabla */
 .clientes-container {
     max-width: 600px;
