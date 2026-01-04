@@ -1,3 +1,6 @@
+button:hover {
+    background: #125ea2 !important;
+}
 /* ...existing code... */
 button {
     color: #000 !important;
