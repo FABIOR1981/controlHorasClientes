@@ -1,5 +1,6 @@
+/* ...existing code... */
 button {
-    color: #000;
+    color: #000 !important;
 }
 /* Restaurar estilos de estructura y tabla */
 .clientes-container {
