@@ -1,13 +1,24 @@
-button {
-    color: #000;
+/* main.css */
+:root {
+    --primary-green: #81C784;
+    --hover-green: #4CAF50;
+    --print-blue: #64B5F6;
+    --text-white: #ffffff;
+    --bg-gray: #f4f4f4;
 }
-/* Estilos base para controlHorasClientes */
+
+button {
+    color: var(--text-white) !important; /* Texto blanco para mejor contraste */
+    font-family: inherit;
+}
+
 body {
     font-family: Arial, sans-serif;
-    background: #f4f4f4;
+    background: var(--bg-gray);
     margin: 0;
     padding: 0;
 }
+
 #app {
     max-width: 900px;
     margin: 40px auto;

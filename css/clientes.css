@@ -1,11 +1,12 @@
+/* clientes.css */
 button:hover {
-    background: #125ea2 !important;
+    background: var(--hover-green) !important;
 }
-/* ...existing code... */
+
 button {
-    color: #000 !important;
+    color: var(--text-white) !important;
 }
-/* Restaurar estilos de estructura y tabla */
+
 .clientes-container {
     max-width: 600px;
     margin: 60px auto;
@@ -14,37 +15,24 @@ button {
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     padding: 32px;
 }
-.clientes-container h2 {
-    margin-bottom: 24px;
-}
-.tabla-clientes {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 24px;
-}
-.tabla-clientes th, .tabla-clientes td {
-    border: 1px solid #ccc;
-    padding: 6px;
-    text-align: left;
-}
-.tabla-clientes th {
-    background: #eee;
-}
-.inactivo {
-    color: #c00;
-}
-/* clientes.css - Estilos específicos para clientes.html */
+.clientes-container h2 { margin-bottom: 24px; }
+.tabla-clientes { width: 100%; border-collapse: collapse; margin-top: 24px; }
+.tabla-clientes th, .tabla-clientes td { border: 1px solid #ccc; padding: 6px; text-align: left; }
+.tabla-clientes th { background: #eee; }
+.inactivo { color: #c00; }
+
 .clientes-container input, .clientes-container select {
     width: 100%;
     margin-bottom: 12px;
     padding: 8px;
     border-radius: 4px;
     border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 .clientes-container button {
     padding: 10px 24px;
-    background: #A5D6A7;
-    color: #1976d2;
+    background: var(--primary-green);
+    color: var(--text-white);
     border: none;
     border-radius: 4px;
     font-size: 16px;
@@ -52,6 +40,6 @@ button {
     transition: background 0.2s;
 }
 .clientes-container button#print-btn {
-    background: #90caf9;
-    color: #1565c0;
+    background: var(--print-blue);
+    color: var(--text-white);
 }
