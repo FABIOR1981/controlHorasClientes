@@ -18,9 +18,16 @@
         <button class="dashboard-btn" id="logoutBtn">Cerrar sesión</button>
     </div>
     <script>
-    // Mostrar nombre de usuario si está logueado
-    const usuario = localStorage.getItem('usuarioLogueado');
-    if(!usuario) {
+    // Mostrar nombre de usuario si está logueado y verificar expiración de sesión
+    const usuarioStr = localStorage.getItem('usuarioLogueado');
+    let usuario = null;
+    if(usuarioStr) {
+        try {
+            usuario = JSON.parse(usuarioStr);
+        } catch {}
+    }
+    if(!usuario || !usuario.expiracion || Date.now() > usuario.expiracion) {
+        localStorage.removeItem('usuarioLogueado');
         window.location.href = 'login.html';
     }
     document.getElementById('logoutBtn').onclick = function() {

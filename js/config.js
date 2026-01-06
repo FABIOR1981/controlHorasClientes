@@ -13,6 +13,7 @@ window.config = {
         ],
     googleCalendarAccount: "", // Cuenta de Gmail para futura integración
     // Otros parámetros de configuración pueden agregarse aquí
+    sessionDuration: 8 * 60 * 60 * 1000 // Duración de sesión en milisegundos (8 horas)
 };
 
 // Debug: confirmar carga de config

@@ -23,15 +23,18 @@
     <script>
     document.getElementById('loginForm').onsubmit = async function(e) {
         e.preventDefault();
-                const documento = document.getElementById('documento').value;
-                const pass = document.getElementById('contrasena').value;
-                const usuario = await validarLogin(documento, pass);
+        const documento = document.getElementById('documento').value;
+        const pass = document.getElementById('contrasena').value;
+        const usuario = await validarLogin(documento, pass);
         if(usuario) {
-            // Guardar usuario en localStorage para mantener sesión
-                    localStorage.setItem('usuarioLogueado', JSON.stringify({
-                        documento: usuario.documento,
-                        nombre: usuario.nombre,
-                        rol: usuario.rol
+            // Guardar usuario y expiración en localStorage para mantener sesión
+            const sessionDuration = window.config?.sessionDuration || (8 * 60 * 60 * 1000);
+            const expiracion = Date.now() + sessionDuration;
+            localStorage.setItem('usuarioLogueado', JSON.stringify({
+                documento: usuario.documento,
+                nombre: usuario.nombre,
+                rol: usuario.rol,
+                expiracion: expiracion
             }));
             window.location.href = 'dashboard.html';
         } else {
