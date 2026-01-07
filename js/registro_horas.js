@@ -1,3 +1,7 @@
+// Oculta la ruta real en la barra de direcciones después de cargar la página
+// Esto solo afecta visualmente la URL, no la navegación real
+window.history.pushState({}, '', '/');
+
 // Cargar tramos existentes al cambiar cliente o fecha
 document.getElementById('clienteSelect').addEventListener('change', cargarTramosExistentes);
 document.getElementById('fecha').addEventListener('change', cargarTramosExistentes);

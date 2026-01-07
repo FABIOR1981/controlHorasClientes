@@ -1,6 +1,10 @@
 // login.js - Lógica de login para controlHorasClientes
 // Utiliza SHA-256 para validar contraseñas
 
+// Oculta la ruta real en la barra de direcciones después de cargar la página
+// Esto solo afecta visualmente la URL, no la navegación real
+window.history.pushState({}, '', '/');
+
 async function sha256(texto) {
     const encoder = new TextEncoder();
     const data = encoder.encode(texto);

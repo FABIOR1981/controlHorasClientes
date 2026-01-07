@@ -2,6 +2,10 @@
 
 let clientes = [];
 
+// Oculta la ruta real en la barra de direcciones después de cargar la página
+// Esto solo afecta visualmente la URL, no la navegación real
+window.history.pushState({}, '', '/');
+
 // Cargar clientes desde el archivo JSON y renderizar la tabla
 async function cargarClientes() {
     try {
