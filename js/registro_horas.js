@@ -1,6 +1,4 @@
-// Oculta la ruta real en la barra de direcciones después de cargar la página
-// Esto solo afecta visualmente la URL, no la navegación real
-window.history.pushState({}, '', '/');
+// registro_horas.js - Lógica para registrar horas por cliente y día
 
 // Cargar tramos existentes al cambiar cliente o fecha
 document.getElementById('clienteSelect').addEventListener('change', cargarTramosExistentes);
@@ -26,7 +24,6 @@ function cargarTramosExistentes() {
             renderTramos();
         });
 }
-// registro_horas.js - Lógica para registrar horas por cliente y día
 
 let tramos = [];
 

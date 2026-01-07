@@ -1,9 +1,5 @@
 // informes.js - Lógica para mostrar informes de horas por cliente y periodo
 
-// Oculta la ruta real en la barra de direcciones después de cargar la página
-// Esto solo afecta visualmente la URL, no la navegación real
-window.history.pushState({}, '', '/');
-
 async function cargarClientesInforme() {
     
     const select = document.getElementById('clienteInforme');
