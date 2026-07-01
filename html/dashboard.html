@@ -15,9 +15,10 @@
                 <img src="../imagenes/logo_shalon.png" alt="Logo Shalon Morales">
             </div>
             <nav class="sidebar-nav" aria-label="Menú principal">
-                <a class="dashboard-btn sidebar-link" href="clientes.html">Clientes</a>
-                <a class="dashboard-btn sidebar-link" href="registro_horas.html">Registrar horas</a>
-                <a class="dashboard-btn sidebar-link" href="informes.html">Informes</a>
+                <a class="dashboard-btn sidebar-link active" href="#" data-page="home">Inicio</a>
+                <a class="dashboard-btn sidebar-link" href="#" data-page="clientes.html">Clientes</a>
+                <a class="dashboard-btn sidebar-link" href="#" data-page="registro_horas.html">Registrar horas</a>
+                <a class="dashboard-btn sidebar-link" href="#" data-page="informes.html">Informes</a>
             </nav>
             <button class="dashboard-btn sidebar-link logout-btn" id="logoutBtn">Cerrar sesión</button>
         </aside>
@@ -28,23 +29,25 @@
                 <p>Gestiona clientes, horas e informes desde un solo lugar.</p>
             </header>
 
-            <section class="dashboard-cards">
+            <section id="dashboardHome" class="dashboard-cards">
                 <article class="dashboard-card">
                     <h2>Clientes</h2>
                     <p>Consulta y administra la información de tus clientes.</p>
-                    <a class="dashboard-card-link" href="clientes.html">Ver clientes</a>
+                    <a class="dashboard-card-link" href="#" data-page="clientes.html">Ver clientes</a>
                 </article>
                 <article class="dashboard-card">
                     <h2>Registro de horas</h2>
                     <p>Registra y organiza las horas trabajadas por cliente.</p>
-                    <a class="dashboard-card-link" href="registro_horas.html">Registrar</a>
+                    <a class="dashboard-card-link" href="#" data-page="registro_horas.html">Registrar</a>
                 </article>
                 <article class="dashboard-card">
                     <h2>Informes</h2>
                     <p>Genera reportes claros y actualizados del estado del trabajo.</p>
-                    <a class="dashboard-card-link" href="informes.html">Abrir informes</a>
+                    <a class="dashboard-card-link" href="#" data-page="informes.html">Abrir informes</a>
                 </article>
             </section>
+
+            <iframe id="contentFrame" class="dashboard-frame" title="Contenido del panel" src=""></iframe>
         </main>
     </div>
 
@@ -63,6 +66,37 @@
         localStorage.removeItem('usuarioLogueado');
         window.location.href = 'login.html';
     }
+
+    const homeSection = document.getElementById('dashboardHome');
+    const contentFrame = document.getElementById('contentFrame');
+    const menuLinks = document.querySelectorAll('.sidebar-link[data-page], .dashboard-card-link[data-page]');
+
+    function showPage(page) {
+        document.querySelectorAll('.sidebar-link[data-page]').forEach(link => link.classList.remove('active'));
+        const activeLink = document.querySelector(`.sidebar-link[data-page="${page}"]`);
+        if (activeLink) {
+            activeLink.classList.add('active');
+        }
+
+        if (page === 'home') {
+            homeSection.style.display = 'grid';
+            contentFrame.style.display = 'none';
+            contentFrame.src = '';
+            return;
+        }
+
+        homeSection.style.display = 'none';
+        contentFrame.style.display = 'block';
+        contentFrame.src = page;
+    }
+
+    menuLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            showPage(this.getAttribute('data-page'));
+        });
+    });
+
     document.getElementById('logoutBtn').onclick = function() {
         localStorage.removeItem('usuarioLogueado');
         window.location.href = 'login.html';
