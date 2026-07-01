@@ -8,12 +8,14 @@ button {
 }
 
 .clientes-container {
-    max-width: 600px;
-    margin: 60px auto;
+    width: 100%;
+    max-width: none;
+    margin: 0;
     background: #fff;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    padding: 32px;
+    box-shadow: none;
+    padding: 24px;
+    box-sizing: border-box;
 }
 .clientes-container h2 { margin-bottom: 24px; }
 .tabla-clientes { width: 100%; border-collapse: collapse; margin-top: 24px; }
