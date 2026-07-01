@@ -151,9 +151,10 @@
             const total = entries.reduce((sum, [, value]) => sum + value, 0);
             chartTotalHours.textContent = `${total.toFixed(1)} h`;
 
-            const colors = ['#2e7d32', '#66bb6a', '#26a69a', '#5c6bc0', '#ef5350', '#ffb300', '#8d6e63'];
+            const colors = ['#2e7d32', '#66bb6a', '#26a69a', '#5c6bc0', '#ef5350', '#ffb300', '#8d6e63', '#ab47bc', '#26c6da', '#ffa726'];
             let currentAngle = 0;
-            const segments = entries.map(([client, value], index) => {
+            const topEntries = entries.slice(0, 10);
+            const segments = topEntries.map(([client, value], index) => {
                 const percentage = (value / total) * 100;
                 const start = currentAngle;
                 currentAngle += percentage;
@@ -161,7 +162,7 @@
             });
             hoursChart.style.background = `conic-gradient(${segments.join(', ')})`;
 
-            legendList.innerHTML = entries.map(([client, value], index) => `
+            legendList.innerHTML = topEntries.map(([client, value], index) => `
                 <li class="legend-item">
                     <span class="legend-dot" style="background:${colors[index % colors.length]};"></span>
                     <div>

@@ -195,10 +195,12 @@ body {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
     min-width: 220px;
+    width: 100%;
+    max-width: 360px;
 }
 
 .legend-item {
@@ -206,8 +208,9 @@ body {
     align-items: center;
     gap: 10px;
     background: #f8fff8;
-    padding: 10px 12px;
+    padding: 8px 10px;
     border-radius: 10px;
+    min-height: 44px;
 }
 
 .legend-item strong {
@@ -274,5 +277,10 @@ body {
     .chart-wrapper {
         width: 240px;
         height: 240px;
+    }
+
+    .legend-list {
+        grid-template-columns: 1fr;
+        max-width: none;
     }
 }
