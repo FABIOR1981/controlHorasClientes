@@ -38,12 +38,7 @@
                         </div>
                         <label class="range-select" for="rangeSelect">
                             <span>Ver últimos</span>
-                            <select id="rangeSelect">
-                                <option value="3">3 meses</option>
-                                <option value="6" selected>6 meses</option>
-                                <option value="9">9 meses</option>
-                                <option value="12">12 meses</option>
-                            </select>
+                            <select id="rangeSelect"></select>
                         </label>
                     </div>
 
@@ -66,6 +61,7 @@
 
     <footer class="dashboard-footer">Realizado por TechFaRo © 2026</footer>
 
+    <script src="../js/config.js"></script>
     <script>
     // Mostrar nombre de usuario si está logueado y verificar expiración de sesión
     const usuarioStr = localStorage.getItem('usuarioLogueado');
@@ -88,6 +84,22 @@
     const hoursChart = document.getElementById('hoursChart');
     const chartTotalHours = document.getElementById('chartTotalHours');
     const legendList = document.getElementById('legendList');
+    const dashboardConfig = (window.config && window.config.dashboardHome) || {};
+    const maxClients = Number(dashboardConfig.maxClients || 15);
+    const monthsOptions = Array.isArray(dashboardConfig.monthsOptions) && dashboardConfig.monthsOptions.length
+        ? dashboardConfig.monthsOptions
+        : [3, 6, 9, 12];
+    const defaultMonths = Number(dashboardConfig.defaultMonths || monthsOptions[0] || 6);
+
+    monthsOptions.forEach(months => {
+        const option = document.createElement('option');
+        option.value = months;
+        option.textContent = `${months} meses`;
+        if (months === defaultMonths) {
+            option.selected = true;
+        }
+        rangeSelect.appendChild(option);
+    });
 
     function parseHoursValue(value) {
         if (value === null || value === undefined || value === '') return 0;
@@ -153,7 +165,7 @@
 
             const colors = ['#2e7d32', '#66bb6a', '#26a69a', '#5c6bc0', '#ef5350', '#ffb300', '#8d6e63', '#ab47bc', '#26c6da', '#ffa726'];
             let currentAngle = 0;
-            const topEntries = entries.slice(0, 10);
+            const topEntries = entries.slice(0, maxClients);
             const segments = topEntries.map(([client, value], index) => {
                 const percentage = (value / total) * 100;
                 const start = currentAngle;
@@ -208,7 +220,7 @@
         });
     });
 
-    renderHomeSummary(Number(rangeSelect.value || 6));
+    renderHomeSummary(Number(rangeSelect.value || defaultMonths));
 
     document.getElementById('logoutBtn').onclick = function() {
         localStorage.removeItem('usuarioLogueado');
