@@ -14,7 +14,7 @@ window.config = {
     googleCalendarAccount: "", // Cuenta de Gmail para futura integración
     dashboardHome: {
         maxClients: 15,
-        monthsOptions: [3, 6, 9, 12],
+        monthsOptions: [1,3, 6, 9, 12],
         defaultMonths: 6
     },
     // Otros parámetros de configuración pueden agregarse aquí
