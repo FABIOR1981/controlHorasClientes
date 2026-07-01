@@ -17,6 +17,7 @@ body {
     background: var(--bg-gray);
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 #app {

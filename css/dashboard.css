@@ -5,19 +5,23 @@ button {
 
 body {
     min-height: 100vh;
+    overflow: hidden;
     background: linear-gradient(135deg, #f4f4f4 0%, #e8f5e9 100%);
 }
 
 .dashboard-shell {
     display: flex;
     min-height: 100vh;
+    width: 100vw;
+    max-width: 100%;
 }
 
 .dashboard-sidebar {
-    width: 280px;
+    width: 240px;
+    flex-shrink: 0;
     background: #2e7d32;
     color: #fff;
-    padding: 24px 20px;
+    padding: 20px 16px;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -78,7 +82,8 @@ body {
 
 .dashboard-content {
     flex: 1;
-    padding: 40px 32px 24px;
+    min-width: 0;
+    padding: 24px 24px 16px;
 }
 
 .dashboard-header {
@@ -133,8 +138,8 @@ body {
 .dashboard-frame {
     display: none;
     width: 100%;
-    min-height: 70vh;
-    height: calc(100vh - 160px);
+    min-height: calc(100vh - 140px);
+    height: calc(100vh - 140px);
     border: none;
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.08);
