@@ -9,14 +9,47 @@
     <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
-    <div class="dashboard-container">
-        <img src="../imagenes/logo_shalon.png" alt="Logo Shalon Morales" style="display:block; margin:0 0 24px auto; max-width:180px; float:right;">
-        <h1>Panel Principal</h1>
-        <button class="dashboard-btn" onclick="window.location.href='clientes.html'">Clientes</button>
-        <button class="dashboard-btn" onclick="window.location.href='registro_horas.html'">Registrar horas</button>
-        <button class="dashboard-btn" onclick="window.location.href='informes.html'">Informes</button>
-        <button class="dashboard-btn" id="logoutBtn">Cerrar sesión</button>
+    <div class="dashboard-shell">
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-brand">
+                <img src="../imagenes/logo_shalon.png" alt="Logo Shalon Morales">
+            </div>
+            <nav class="sidebar-nav" aria-label="Menú principal">
+                <a class="dashboard-btn sidebar-link" href="clientes.html">Clientes</a>
+                <a class="dashboard-btn sidebar-link" href="registro_horas.html">Registrar horas</a>
+                <a class="dashboard-btn sidebar-link" href="informes.html">Informes</a>
+            </nav>
+            <button class="dashboard-btn sidebar-link logout-btn" id="logoutBtn">Cerrar sesión</button>
+        </aside>
+
+        <main class="dashboard-content">
+            <header class="dashboard-header">
+                <h1>Panel Principal</h1>
+                <p>Gestiona clientes, horas e informes desde un solo lugar.</p>
+            </header>
+
+            <section class="dashboard-cards">
+                <article class="dashboard-card">
+                    <h2>Clientes</h2>
+                    <p>Consulta y administra la información de tus clientes.</p>
+                    <a class="dashboard-card-link" href="clientes.html">Ver clientes</a>
+                </article>
+                <article class="dashboard-card">
+                    <h2>Registro de horas</h2>
+                    <p>Registra y organiza las horas trabajadas por cliente.</p>
+                    <a class="dashboard-card-link" href="registro_horas.html">Registrar</a>
+                </article>
+                <article class="dashboard-card">
+                    <h2>Informes</h2>
+                    <p>Genera reportes claros y actualizados del estado del trabajo.</p>
+                    <a class="dashboard-card-link" href="informes.html">Abrir informes</a>
+                </article>
+            </section>
+        </main>
     </div>
+
+    <footer class="dashboard-footer">Realizado por TechFaRo © 2026</footer>
+
     <script>
     // Mostrar nombre de usuario si está logueado y verificar expiración de sesión
     const usuarioStr = localStorage.getItem('usuarioLogueado');
@@ -36,5 +69,4 @@
     };
     </script>
 </body>
-<footer style="text-align:center; color:#888; font-size:13px; margin-top:32px;">Realizado por TechFaRo © 2026</footer>
 </html>
