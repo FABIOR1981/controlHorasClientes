@@ -29,22 +29,35 @@
                 <p>Gestiona clientes, horas e informes desde un solo lugar.</p>
             </header>
 
-            <section id="dashboardHome" class="dashboard-cards">
-                <article class="dashboard-card">
-                    <h2>Clientes</h2>
-                    <p>Consulta y administra la información de tus clientes.</p>
-                    <a class="dashboard-card-link" href="#" data-page="clientes.html">Ver clientes</a>
-                </article>
-                <article class="dashboard-card">
-                    <h2>Registro de horas</h2>
-                    <p>Registra y organiza las horas trabajadas por cliente.</p>
-                    <a class="dashboard-card-link" href="#" data-page="registro_horas.html">Registrar</a>
-                </article>
-                <article class="dashboard-card">
-                    <h2>Informes</h2>
-                    <p>Genera reportes claros y actualizados del estado del trabajo.</p>
-                    <a class="dashboard-card-link" href="#" data-page="informes.html">Abrir informes</a>
-                </article>
+            <section id="dashboardHome" class="dashboard-home">
+                <div class="home-summary-card">
+                    <div class="home-summary-header">
+                        <div>
+                            <h2>Resumen de horas por cliente</h2>
+                            <p>Visualiza cómo se distribuyen las horas en los últimos <span id="rangeLabel">6 meses</span>.</p>
+                        </div>
+                        <label class="range-select" for="rangeSelect">
+                            <span>Ver últimos</span>
+                            <select id="rangeSelect">
+                                <option value="3">3 meses</option>
+                                <option value="6" selected>6 meses</option>
+                                <option value="9">9 meses</option>
+                                <option value="12">12 meses</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div class="home-summary-content">
+                        <div class="chart-wrapper">
+                            <div id="hoursChart" class="hours-chart" aria-label="Gráfico de horas por cliente"></div>
+                            <div class="chart-center">
+                                <strong id="chartTotalHours">0 h</strong>
+                                <span>Total</span>
+                            </div>
+                        </div>
+                        <ul id="legendList" class="legend-list"></ul>
+                    </div>
+                </div>
             </section>
 
             <iframe id="contentFrame" class="dashboard-frame" title="Contenido del panel" src=""></iframe>
@@ -70,6 +83,103 @@
     const homeSection = document.getElementById('dashboardHome');
     const contentFrame = document.getElementById('contentFrame');
     const menuLinks = document.querySelectorAll('.sidebar-link[data-page], .dashboard-card-link[data-page]');
+    const rangeSelect = document.getElementById('rangeSelect');
+    const rangeLabel = document.getElementById('rangeLabel');
+    const hoursChart = document.getElementById('hoursChart');
+    const chartTotalHours = document.getElementById('chartTotalHours');
+    const legendList = document.getElementById('legendList');
+
+    function parseHoursValue(value) {
+        if (value === null || value === undefined || value === '') return 0;
+        const text = String(value).trim();
+        if (!text) return 0;
+        if (text.includes(':')) {
+            const [hours, minutes] = text.split(':').map(Number);
+            return hours + (minutes || 0) / 60;
+        }
+        const normalized = text.replace(',', '.');
+        const parts = normalized.split('.');
+        const hours = parseInt(parts[0] || '0', 10);
+        const decimals = parts[1] || '0';
+        if (decimals && !isNaN(Number(decimals))) {
+            const decimalValue = Number(decimals);
+            if (decimalValue < 60) {
+                return hours + decimalValue / 60;
+            }
+            return hours + decimalValue / 100;
+        }
+        return hours;
+    }
+
+    function getMonthlyTotals(records, months) {
+        const dates = records.map(r => r.fecha).filter(Boolean);
+        const latestDate = dates.length ? dates.reduce((latest, current) => current > latest ? current : latest, dates[0]) : null;
+        if (!latestDate) return [];
+
+        const latest = new Date(`${latestDate}T00:00:00`);
+        const start = new Date(latest.getFullYear(), latest.getMonth() - months + 1, 1);
+        const totals = {};
+
+        records.forEach(record => {
+            if (!record.fecha) return;
+            const recordDate = new Date(`${record.fecha}T00:00:00`);
+            if (recordDate < start || recordDate > latest) return;
+            const client = record.cliente || 'Sin cliente';
+            const total = (record.tramos || []).reduce((sum, tramo) => sum + parseHoursValue(tramo && tramo.horas), 0);
+            totals[client] = (totals[client] || 0) + total;
+        });
+
+        return Object.entries(totals)
+            .filter(([, value]) => value > 0)
+            .sort((a, b) => b[1] - a[1]);
+    }
+
+    async function renderHomeSummary(months) {
+        try {
+            const response = await fetch('../data/horasClientes.json');
+            const records = await response.json();
+            const entries = getMonthlyTotals(records, months);
+            rangeLabel.textContent = `${months} meses`;
+
+            if (!entries.length) {
+                hoursChart.style.background = 'linear-gradient(135deg, #e8f5e9 0%, #f4f4f4 100%)';
+                chartTotalHours.textContent = '0 h';
+                legendList.innerHTML = '<li class="legend-empty">No hay registros para este periodo.</li>';
+                return;
+            }
+
+            const total = entries.reduce((sum, [, value]) => sum + value, 0);
+            chartTotalHours.textContent = `${total.toFixed(1)} h`;
+
+            const colors = ['#2e7d32', '#66bb6a', '#26a69a', '#5c6bc0', '#ef5350', '#ffb300', '#8d6e63'];
+            let currentAngle = 0;
+            const segments = entries.map(([client, value], index) => {
+                const percentage = (value / total) * 100;
+                const start = currentAngle;
+                currentAngle += percentage;
+                return `${colors[index % colors.length]} ${start.toFixed(2)}% ${currentAngle.toFixed(2)}%`;
+            });
+            hoursChart.style.background = `conic-gradient(${segments.join(', ')})`;
+
+            legendList.innerHTML = entries.map(([client, value], index) => `
+                <li class="legend-item">
+                    <span class="legend-dot" style="background:${colors[index % colors.length]};"></span>
+                    <div>
+                        <strong>${client}</strong>
+                        <small>${value.toFixed(1)} h</small>
+                    </div>
+                </li>
+            `).join('');
+        } catch (error) {
+            hoursChart.style.background = 'linear-gradient(135deg, #e8f5e9 0%, #f4f4f4 100%)';
+            chartTotalHours.textContent = '0 h';
+            legendList.innerHTML = '<li class="legend-empty">No se pudo cargar el resumen.</li>';
+        }
+    }
+
+    rangeSelect.addEventListener('change', function() {
+        renderHomeSummary(Number(this.value));
+    });
 
     function showPage(page) {
         document.querySelectorAll('.sidebar-link[data-page]').forEach(link => link.classList.remove('active'));
@@ -96,6 +206,8 @@
             showPage(this.getAttribute('data-page'));
         });
     });
+
+    renderHomeSummary(Number(rangeSelect.value || 6));
 
     document.getElementById('logoutBtn').onclick = function() {
         localStorage.removeItem('usuarioLogueado');
