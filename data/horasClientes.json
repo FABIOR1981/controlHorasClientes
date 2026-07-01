@@ -302,5 +302,16 @@
         "horas": "3:00"
       }
     ]
+  },
+  {
+    "cliente": "Soluciones Creativas",
+    "fecha": "2026-07-01",
+    "tramos": [
+      {
+        "inicio": "",
+        "fin": "",
+        "horas": "7"
+      }
+    ]
   }
 ]
