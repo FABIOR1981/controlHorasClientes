@@ -147,13 +147,11 @@ document.getElementById('formInforme').onsubmit = async function(e) {
 
 function setVistaInforme(vista) {
     vistaActual = vista;
-    document.getElementById('btnInformeClassic').classList.toggle('active', vista === 'classic');
-    document.getElementById('btnInformeNuevo').classList.toggle('active', vista === 'nuevo');
-    document.getElementById('formInforme').dispatchEvent(new Event('submit'));
+    const form = document.getElementById('formInforme');
+    if (form) {
+        form.dispatchEvent(new Event('submit'));
+    }
 }
-
-document.getElementById('btnInformeClassic').addEventListener('click', () => setVistaInforme('classic'));
-document.getElementById('btnInformeNuevo').addEventListener('click', () => setVistaInforme('nuevo'));
 
 window.addEventListener('DOMContentLoaded', () => {
     cargarClientesInforme();

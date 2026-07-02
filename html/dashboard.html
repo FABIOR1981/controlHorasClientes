@@ -19,6 +19,7 @@
                 <a class="dashboard-btn sidebar-link" href="#" data-page="clientes.html">Clientes</a>
                 <a class="dashboard-btn sidebar-link" href="#" data-page="registro_horas.html">Registrar horas</a>
                 <a class="dashboard-btn sidebar-link" href="#" data-page="informes.html">Informes</a>
+                <a class="dashboard-btn sidebar-link" href="#" data-page="informes2.html">Informes 2</a>
             </nav>
             <button class="dashboard-btn sidebar-link logout-btn" id="logoutBtn">Cerrar sesión</button>
         </aside>
@@ -210,7 +211,7 @@
 
         homeSection.style.display = 'none';
         contentFrame.style.display = 'block';
-        contentFrame.src = page;
+        contentFrame.src = page === 'informes2.html' ? 'informes2.html' : page;
     }
 
     menuLinks.forEach(link => {

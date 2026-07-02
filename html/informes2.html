@@ -1,39 +1,36 @@
-<!-- informes.html - Informes de horas por cliente y periodo -->
+<!-- informes2.html - Versión alternativa de informes para impresión -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informes de Horas</title>
+    <title>Informes 2</title>
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/informes.css">
 </head>
 <body>
     <div class="informes-container">
         <img src="../imagenes/logo_shalon.png" alt="Logo Shalon Morales" style="display:block; margin:0 0 24px auto; max-width:180px; float:right;">
-        <h2>Informes de Horas</h2>
-        <form id="formInforme">
+        <h2>Informes 2</h2>
+        <form id="formInforme2">
             <label>Cliente:
-                <select id="clienteInforme">
+                <select id="clienteInforme2">
                     <option value="todos">Todos</option>
                 </select>
             </label>
             <label>Fecha inicio:
-                <input type="date" id="fechaInicio" required>
+                <input type="date" id="fechaInicio2" required>
             </label>
             <label>Fecha fin:
-                <input type="date" id="fechaFin" required>
+                <input type="type" id="fechaFin2" required>
             </label>
             <button type="submit">Generar informe</button>
         </form>
-        <div class="report-actions">
-            <button type="button" id="print-btn" onclick="window.print()" style="margin-bottom:8px;">Imprimir informe</button>
-        </div>
-        <div id="resultadoInforme"></div>
+        <div id="resultadoInforme2"></div>
+        <button type="button" id="print-btn-2" onclick="window.print()">Imprimir informe</button>
     </div>
     <script src="../js/informes.js"></script>
 <script>
-// Verificar expiración de sesión
 const usuarioStr = localStorage.getItem('usuarioLogueado');
 let usuario = null;
 if(usuarioStr) {
@@ -47,5 +44,4 @@ if(!usuario || !usuario.expiracion || Date.now() > usuario.expiracion) {
 }
 </script>
 </body>
-<footer style="text-align:center; color:#888; font-size:13px; margin-top:32px;">Realizado por TechFaRo © 2026</footer>
 </html>
