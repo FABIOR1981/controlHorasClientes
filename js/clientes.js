@@ -16,9 +16,11 @@ function renderTablaClientes() {
     tbody.innerHTML = '';
     clientes.forEach((c, idx) => {
         const tr = document.createElement('tr');
+        const valorHora = c.valorHora == null || c.valorHora === '' ? '-' : Number(c.valorHora).toFixed(2);
         tr.innerHTML = `
             <td>${c.nombre}</td>
             <td>${c.rubro || ''}</td>
+            <td>${valorHora}</td>
             <td class='${c.activo === false ? "inactivo" : ""}'>${c.activo === false ? 'Inactivo' : 'Activo'}</td>
             <td>
                 <button type='button' onclick='editarCliente(${idx})'>Editar</button>
@@ -37,8 +39,11 @@ async function guardarClientes() {
 }
 // Editar cliente: carga los datos en el formulario para modificar
 window.editarCliente = function(idx) {
-    document.getElementById('nombreCliente').value = clientes[idx].nombre;
-    document.getElementById('rubroCliente').value = clientes[idx].rubro || '';
+    const cliente = clientes[idx];
+    document.getElementById('nombreCliente').value = cliente.nombre || '';
+    document.getElementById('rubroCliente').value = cliente.rubro || '';
+    document.getElementById('valorHoraCliente').value = cliente.valorHora == null || cliente.valorHora === '' ? '' : cliente.valorHora;
+    document.getElementById('activoCliente').checked = cliente.activo !== false;
     document.getElementById('altaClienteForm').setAttribute('data-edit', idx);
     document.getElementById('msgAlta').textContent = 'Editando cliente. Modifica y guarda para actualizar.';
     document.getElementById('msgAlta').style.color = '#1976d2';
@@ -54,8 +59,11 @@ document.getElementById('altaClienteForm').onsubmit = async function(e) {
     e.preventDefault();
     const nombre = document.getElementById('nombreCliente').value.trim();
     const rubro = document.getElementById('rubroCliente').value;
+    const valorHoraRaw = document.getElementById('valorHoraCliente').value.trim();
+    const activo = document.getElementById('activoCliente').checked;
     const msg = document.getElementById('msgAlta');
     const editIdx = this.getAttribute('data-edit');
+    const valorHora = valorHoraRaw === '' ? 0 : Number(valorHoraRaw);
     if(!nombre) {
         msg.textContent = 'El nombre es obligatorio.';
         msg.style.color = '#c00';
@@ -66,15 +74,23 @@ document.getElementById('altaClienteForm').onsubmit = async function(e) {
         msg.style.color = '#c00';
         return;
     }
-    if(editIdx !== null) {
+    if (Number.isNaN(valorHora)) {
+        msg.textContent = 'El valor hora debe ser numérico.';
+        msg.style.color = '#c00';
+        return;
+    }
+    if(editIdx !== null && editIdx !== '') {
         // Editar cliente existente
-        if(clientes.some((c, i) => i != editIdx && c.nombre.toLowerCase() === nombre.toLowerCase())) {
+        const editIndex = Number(editIdx);
+        if(clientes.some((c, i) => i !== editIndex && c.nombre.toLowerCase() === nombre.toLowerCase())) {
             msg.textContent = 'Ya existe un cliente con ese nombre.';
             msg.style.color = '#c00';
             return;
         }
-        clientes[editIdx].nombre = nombre;
-        clientes[editIdx].rubro = rubro;
+        clientes[editIndex].nombre = nombre;
+        clientes[editIndex].rubro = rubro;
+        clientes[editIndex].valorHora = valorHora;
+        clientes[editIndex].activo = activo;
         await guardarClientes();
         msg.textContent = 'Cliente actualizado correctamente.';
         msg.style.color = '#080';
@@ -86,12 +102,13 @@ document.getElementById('altaClienteForm').onsubmit = async function(e) {
             msg.style.color = '#c00';
             return;
         }
-        clientes.push({ nombre, rubro, activo: true });
+        clientes.push({ nombre, rubro, valorHora, activo });
         await guardarClientes();
         msg.textContent = 'Cliente guardado correctamente.';
         msg.style.color = '#080';
     }
     document.getElementById('altaClienteForm').reset();
+    document.getElementById('activoCliente').checked = true;
     renderTablaClientes();
 
 }
