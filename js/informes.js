@@ -99,6 +99,15 @@ function formatearHoras(minutos) {
     return `${horas}:${mins}`;
 }
 
+function formatearFecha(fecha) {
+    if (!fecha) return '-';
+    const texto = String(fecha);
+    const match = texto.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!match) return texto;
+    const [, anio, mes, dia] = match;
+    return `${dia}-${mes}-${anio}`;
+}
+
 function renderInformeClassic(registros, cliente) {
     let html = '';
     const clientesAgrupados = {};
@@ -121,7 +130,7 @@ function renderInformeClassic(registros, cliente) {
                 totalDia += minutosTotales;
             });
             const totalDiaStr = formatearHoras(totalDia);
-            html += `<tr><td>${r.fecha}</td><td>${tramosHtml}</td><td>${totalDiaStr}</td></tr>`;
+            html += `<tr><td>${formatearFecha(r.fecha)}</td><td>${tramosHtml}</td><td>${totalDiaStr}</td></tr>`;
             totalCliente += totalDia;
         });
         const totalClienteStr = formatearHoras(totalCliente);
@@ -143,7 +152,7 @@ function renderInformeNuevo(registros, cliente, fechaInicio, fechaFin) {
     html += '<div class="report-header">';
     html += '<div class="report-brand">';
     html += '<img src="../imagenes/logo_shalon.png" alt="Logo Shalon Morales">';
-    html += '<div><h2>Informe de horas</h2><p>Periodo: ' + (fechaInicio || '-') + ' al ' + (fechaFin || '-') + '</p></div>';
+    html += '<div><h2>Informe de horas</h2><p>Periodo: ' + formatearFecha(fechaInicio || '-') + ' al ' + formatearFecha(fechaFin || '-') + '</p></div>';
     html += '</div>';
     html += `<div class="report-title">${cliente !== 'todos' ? cliente : 'Todos los clientes'}</div>`;
     html += '</div>';
@@ -158,7 +167,7 @@ function renderInformeNuevo(registros, cliente, fechaInicio, fechaFin) {
         clientesAgrupados[nombreCliente].sort((a, b) => a.fecha.localeCompare(b.fecha)).forEach(r => {
             const detalle = (r.tramos || []).map(t => `${t.inicio || '-'} - ${t.fin || '-'} (${formatearHoras(getHorasTotalesEnMinutos([t]))})`).join('<br>');
             const totalDia = formatearHoras(getHorasTotalesEnMinutos(r.tramos));
-            html += `<tr><td>${nombreCliente}</td><td>${r.fecha}</td><td>${detalle}</td><td>${totalDia}</td></tr>`;
+            html += `<tr><td>${nombreCliente}</td><td>${formatearFecha(r.fecha)}</td><td>${detalle}</td><td>${totalDia}</td></tr>`;
         });
     });
     html += '</tbody></table></div>';
