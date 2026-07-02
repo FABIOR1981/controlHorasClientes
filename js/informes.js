@@ -2,6 +2,61 @@
 
 let vistaActual = 'classic';
 
+function getReportConfig() {
+    if (document.getElementById('formInforme2')) {
+        return {
+            formId: 'formInforme2',
+            selectId: 'clienteInforme2',
+            startId: 'fechaInicio2',
+            endId: 'fechaFin2',
+            resultId: 'resultadoInforme2',
+            buttonId: 'btnGenerarInforme2',
+            mode: 'nuevo'
+        };
+    }
+
+    return {
+        formId: 'formInforme',
+        selectId: 'clienteInforme',
+        startId: 'fechaInicio',
+        endId: 'fechaFin',
+        resultId: 'resultadoInforme',
+        buttonId: null,
+        mode: 'classic'
+    };
+}
+
+function sanitizeFileName(value) {
+    return String(value || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '_')
+        .replace(/^_+|_+$/g, '') || 'informe';
+}
+
+function buildReportFileName(cliente, fechaInicio, fechaFin) {
+    const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    if (cliente === 'todos') {
+        return `Informe_${today}.pdf`;
+    }
+    const safeCliente = sanitizeFileName(cliente);
+    const inicio = (fechaInicio || today).replace(/-/g, '');
+    const fin = (fechaFin || today).replace(/-/g, '');
+    return `${safeCliente}_${inicio}_${fin}.pdf`;
+}
+
+function triggerPdfDownload(fileName) {
+    const previousTitle = document.title;
+    document.title = fileName;
+    window.setTimeout(() => {
+        window.print();
+        window.setTimeout(() => {
+            document.title = previousTitle;
+        }, 500);
+    }, 150);
+}
+
 function getHorasTotalesEnMinutos(tramos) {
     return (tramos || []).reduce((sum, t) => {
         let minutosTotales = 0;
@@ -98,13 +153,12 @@ function renderInformeNuevo(registros, cliente) {
     return html;
 }
 
-async function cargarClientesInforme() {
-    
-    const select = document.getElementById('clienteInforme');
+async function cargarClientesInforme(config = getReportConfig()) {
+    const select = document.getElementById(config.selectId);
+    if (!select) return;
     try {
         const resp = await fetch('../data/listaClientes.json');
         const clientes = await resp.json();
-       
         clientes.sort((a, b) => a.nombre.localeCompare(b.nombre));
         clientes.forEach(c => {
             const opt = document.createElement('option');
@@ -112,7 +166,6 @@ async function cargarClientesInforme() {
             opt.textContent = c.nombre;
             select.appendChild(opt);
         });
-       
     } catch {}
 }
 
@@ -120,12 +173,13 @@ function filtrarPorFecha(registros, inicio, fin) {
     return registros.filter(r => r.fecha >= inicio && r.fecha <= fin);
 }
 
-document.getElementById('formInforme').onsubmit = async function(e) {
-    e.preventDefault();
-    const cliente = document.getElementById('clienteInforme').value;
-    const fechaInicio = document.getElementById('fechaInicio').value;
-    const fechaFin = document.getElementById('fechaFin').value;
-    const resultado = document.getElementById('resultadoInforme');
+async function generarInforme(config, { shouldDownload = false } = {}) {
+    const cliente = document.getElementById(config.selectId).value;
+    const fechaInicio = document.getElementById(config.startId).value;
+    const fechaFin = document.getElementById(config.endId).value;
+    const resultado = document.getElementById(config.resultId);
+    if (!resultado) return;
+
     resultado.innerHTML = '';
     let registros = [];
     try {
@@ -141,19 +195,44 @@ document.getElementById('formInforme').onsubmit = async function(e) {
         return;
     }
 
-    const html = vistaActual === 'nuevo' ? renderInformeNuevo(registros, cliente) : renderInformeClassic(registros, cliente);
+    const html = config.mode === 'nuevo' ? renderInformeNuevo(registros, cliente) : renderInformeClassic(registros, cliente);
     resultado.innerHTML = html;
-};
+
+    if (shouldDownload) {
+        const fileName = buildReportFileName(cliente, fechaInicio, fechaFin);
+        window.setTimeout(() => triggerPdfDownload(fileName), 100);
+    }
+}
 
 function setVistaInforme(vista) {
     vistaActual = vista;
-    const form = document.getElementById('formInforme');
-    if (form) {
-        form.dispatchEvent(new Event('submit'));
+    const config = getReportConfig();
+    if (config.formId === 'formInforme') {
+        const form = document.getElementById(config.formId);
+        if (form) {
+            form.dispatchEvent(new Event('submit'));
+        }
     }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    cargarClientesInforme();
-    setVistaInforme('classic');
+    const config = getReportConfig();
+    cargarClientesInforme(config);
+    const form = document.getElementById(config.formId);
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            generarInforme(config, { shouldDownload: false });
+        });
+    }
+    const button = config.buttonId ? document.getElementById(config.buttonId) : null;
+    if (button) {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            generarInforme(config, { shouldDownload: true });
+        });
+    }
+    if (config.mode === 'classic') {
+        setVistaInforme('classic');
+    }
 });
