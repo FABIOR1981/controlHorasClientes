@@ -17,9 +17,12 @@
                 <option value="">Seleccione un rubro</option>
             </select>
             <input type="number" id="valorHoraCliente" placeholder="Valor Hora" min="0" step="0.01">
-            <label style="display:flex; align-items:center; gap:8px; margin-top:8px; font-size:0.95rem;">
-                <input type="checkbox" id="activoCliente" checked>
-                Activo
+            <label style="display:flex; flex-direction:column; gap:6px; margin-top:8px; font-size:0.95rem; align-items:flex-start;">
+                <span>Estado</span>
+                <select id="activoCliente">
+                    <option value="true">Activo</option>
+                    <option value="false">Inactivo</option>
+                </select>
             </label>
             <div class="msg" id="msgAlta"></div>
             <button type="submit">Guardar cliente</button>

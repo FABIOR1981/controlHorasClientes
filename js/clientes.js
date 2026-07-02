@@ -43,7 +43,7 @@ window.editarCliente = function(idx) {
     document.getElementById('nombreCliente').value = cliente.nombre || '';
     document.getElementById('rubroCliente').value = cliente.rubro || '';
     document.getElementById('valorHoraCliente').value = cliente.valorHora == null || cliente.valorHora === '' ? '' : cliente.valorHora;
-    document.getElementById('activoCliente').checked = cliente.activo !== false;
+    document.getElementById('activoCliente').value = cliente.activo === false ? 'false' : 'true';
     document.getElementById('altaClienteForm').setAttribute('data-edit', idx);
     document.getElementById('msgAlta').textContent = 'Editando cliente. Modifica y guarda para actualizar.';
     document.getElementById('msgAlta').style.color = '#1976d2';
@@ -60,7 +60,7 @@ document.getElementById('altaClienteForm').onsubmit = async function(e) {
     const nombre = document.getElementById('nombreCliente').value.trim();
     const rubro = document.getElementById('rubroCliente').value;
     const valorHoraRaw = document.getElementById('valorHoraCliente').value.trim();
-    const activo = document.getElementById('activoCliente').checked;
+    const activo = document.getElementById('activoCliente').value === 'true';
     const msg = document.getElementById('msgAlta');
     const editIdx = this.getAttribute('data-edit');
     const valorHora = valorHoraRaw === '' ? 0 : Number(valorHoraRaw);
@@ -108,7 +108,7 @@ document.getElementById('altaClienteForm').onsubmit = async function(e) {
         msg.style.color = '#080';
     }
     document.getElementById('altaClienteForm').reset();
-    document.getElementById('activoCliente').checked = true;
+    document.getElementById('activoCliente').value = 'true';
     renderTablaClientes();
 
 }
