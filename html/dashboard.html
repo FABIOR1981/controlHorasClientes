@@ -165,7 +165,7 @@
 
             const colors = ['#2e7d32', '#66bb6a', '#26a69a', '#5c6bc0', '#ef5350', '#ffb300', '#8d6e63', '#ab47bc', '#26c6da', '#ffa726'];
             let currentAngle = 0;
-            const topEntries = entries.slice(0, maxClients);
+            const topEntries = maxClients > 0 ? entries.slice(0, maxClients) : entries;
             const segments = topEntries.map(([client, value], index) => {
                 const percentage = (value / total) * 100;
                 const start = currentAngle;
