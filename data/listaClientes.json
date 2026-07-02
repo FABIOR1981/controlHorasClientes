@@ -1,3 +1,8 @@
 [
-  
+  {
+    "nombre": "Pepe",
+    "rubro": "Importador",
+    "valorHora": 2500,
+    "activo": true
+  }
 ]
