@@ -1,0 +1,46 @@
+[
+  {
+    "nombre": "Pepe",
+    "rubro": "Despachante de Aduana",
+    "activo": false
+  },
+  {
+    "nombre": "Gusano Manzana",
+    "rubro": "Agente"
+  },
+  {
+    "nombre": "Montaña",
+    "rubro": "Exportador",
+    "activo": true
+  },
+  {
+    "nombre": "Soluciones Creativas",
+    "rubro": "Comercio",
+    "activo": true
+  },
+  {
+    "nombre": "Distribuidora El Faro",
+    "rubro": "Importador",
+    "activo": true
+  },
+  {
+    "nombre": "Consultora MBTI",
+    "rubro": "Línea marítima",
+    "activo": true
+  },
+  {
+    "nombre": "Cliente Prueba",
+    "rubro": "Aerolínea",
+    "activo": false
+  },
+  {
+    "nombre": "nuevo cliente",
+    "rubro": "Exportador",
+    "activo": true
+  },
+  {
+    "nombre": "TREN",
+    "rubro": "Despachante de Aduana",
+    "activo": true
+  }
+]
