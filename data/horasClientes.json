@@ -351,5 +351,16 @@
         "horas": "3:00"
       }
     ]
+  },
+  {
+    "cliente": "nuevo cliente",
+    "fecha": "2026-07-07",
+    "tramos": [
+      {
+        "inicio": "08:30",
+        "fin": "13:30",
+        "horas": "5:00"
+      }
+    ]
   }
 ]
