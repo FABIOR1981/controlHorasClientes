@@ -131,7 +131,7 @@ function renderInformeClassic(registros, cliente) {
     return html;
 }
 
-function renderInformeNuevo(registros, cliente) {
+function renderInformeNuevo(registros, cliente, fechaInicio, fechaFin) {
     const clientesAgrupados = {};
     registros.forEach(r => {
         if(!clientesAgrupados[r.cliente]) clientesAgrupados[r.cliente] = [];
@@ -140,7 +140,13 @@ function renderInformeNuevo(registros, cliente) {
     const clientesOrdenados = Object.keys(clientesAgrupados).sort((a, b) => a.localeCompare(b));
 
     let html = '<div class="report-sheet">';
-    html += `<h2>Informe de horas${cliente !== 'todos' ? ` - ${cliente}` : ''}</h2>`;
+    html += '<div class="report-header">';
+    html += '<div class="report-brand">';
+    html += '<img src="../imagenes/logo_shalon.png" alt="Logo Shalon Morales">';
+    html += '<div><h2>Informe de horas</h2><p>Periodo: ' + (fechaInicio || '-') + ' al ' + (fechaFin || '-') + '</p></div>';
+    html += '</div>';
+    html += `<div class="report-title">${cliente !== 'todos' ? cliente : 'Todos los clientes'}</div>`;
+    html += '</div>';
     html += '<div class="report-summary">';
     clientesOrdenados.forEach(nombreCliente => {
         const totalCliente = clientesAgrupados[nombreCliente].reduce((sum, r) => sum + getHorasTotalesEnMinutos(r.tramos), 0);
@@ -201,7 +207,7 @@ async function generarInforme(config, { shouldDownload = false } = {}) {
         return;
     }
 
-    const html = config.mode === 'nuevo' ? renderInformeNuevo(registros, cliente) : renderInformeClassic(registros, cliente);
+    const html = config.mode === 'nuevo' ? renderInformeNuevo(registros, cliente, fechaInicio, fechaFin) : renderInformeClassic(registros, cliente);
     resultado.innerHTML = html;
 
     if (shouldDownload) {
