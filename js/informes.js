@@ -1,5 +1,103 @@
 // informes.js - Lógica para mostrar informes de horas por cliente y periodo
 
+let vistaActual = 'classic';
+
+function getHorasTotalesEnMinutos(tramos) {
+    return (tramos || []).reduce((sum, t) => {
+        let minutosTotales = 0;
+        if (t.inicio && t.fin) {
+            const [h1, m1] = t.inicio.split(':').map(Number);
+            const [h2, m2] = t.fin.split(':').map(Number);
+            minutosTotales = (h2*60 + m2) - (h1*60 + m1);
+            if(minutosTotales < 0) minutosTotales += 24*60;
+        } else if (t.horas && t.horas.includes(':')) {
+            const [h, m] = t.horas.split(':').map(Number);
+            minutosTotales = h*60 + m;
+        } else if (t.horas) {
+            let partes = t.horas.split('.');
+            let h = parseInt(partes[0] || '0');
+            let m = parseInt(partes[1] || '0');
+            if (m > 0) {
+                if (m < 60) {
+                    minutosTotales = h*60 + m;
+                } else {
+                    minutosTotales = h*60 + Math.round(60 * (parseFloat('0.'+m)));
+                }
+            } else {
+                minutosTotales = h*60;
+            }
+        }
+        return sum + minutosTotales;
+    }, 0);
+}
+
+function formatearHoras(minutos) {
+    if (!Number.isFinite(minutos)) return '-';
+    const horas = Math.floor(minutos / 60).toString().padStart(2, '0');
+    const mins = (minutos % 60).toString().padStart(2, '0');
+    return `${horas}:${mins}`;
+}
+
+function renderInformeClassic(registros, cliente) {
+    let html = '';
+    const clientesAgrupados = {};
+    registros.forEach(r => {
+        if(!clientesAgrupados[r.cliente]) clientesAgrupados[r.cliente] = [];
+        clientesAgrupados[r.cliente].push(r);
+    });
+    const clientesOrdenados = Object.keys(clientesAgrupados).sort((a, b) => a.localeCompare(b));
+    clientesOrdenados.forEach(nombreCliente => {
+        html += `<h3>Cliente: ${nombreCliente}</h3>`;
+        html += `<table class='tabla-informe'><thead><tr><th>Fecha</th><th>Carga Horaria</th><th>Total horas</th></tr></thead><tbody>`;
+        let totalCliente = 0;
+        clientesAgrupados[nombreCliente].sort((a, b) => a.fecha.localeCompare(b.fecha)).forEach(r => {
+            let tramosHtml = '';
+            let totalDia = 0;
+            r.tramos.forEach(t => {
+                const minutosTotales = getHorasTotalesEnMinutos([t]);
+                const horasFinal = formatearHoras(minutosTotales);
+                tramosHtml += `${t.inicio || '-'} - ${t.fin || '-'} (${horasFinal})<br>`;
+                totalDia += minutosTotales;
+            });
+            const totalDiaStr = formatearHoras(totalDia);
+            html += `<tr><td>${r.fecha}</td><td>${tramosHtml}</td><td>${totalDiaStr}</td></tr>`;
+            totalCliente += totalDia;
+        });
+        const totalClienteStr = formatearHoras(totalCliente);
+        html += `<tr class='total-row'><td colspan='2'>Total ${nombreCliente}</td><td>${totalClienteStr}</td></tr>`;
+        html += '</tbody></table>';
+    });
+    return html;
+}
+
+function renderInformeNuevo(registros, cliente) {
+    const clientesAgrupados = {};
+    registros.forEach(r => {
+        if(!clientesAgrupados[r.cliente]) clientesAgrupados[r.cliente] = [];
+        clientesAgrupados[r.cliente].push(r);
+    });
+    const clientesOrdenados = Object.keys(clientesAgrupados).sort((a, b) => a.localeCompare(b));
+
+    let html = '<div class="report-sheet">';
+    html += `<h2>Informe de horas${cliente !== 'todos' ? ` - ${cliente}` : ''}</h2>`;
+    html += '<div class="report-summary">';
+    clientesOrdenados.forEach(nombreCliente => {
+        const totalCliente = clientesAgrupados[nombreCliente].reduce((sum, r) => sum + getHorasTotalesEnMinutos(r.tramos), 0);
+        html += `<div class="report-card"><strong>${nombreCliente}</strong><span>${formatearHoras(totalCliente)} hs</span></div>`;
+    });
+    html += '</div>';
+    html += '<table class="tabla-informe tabla-informe-nueva"><thead><tr><th>Cliente</th><th>Fecha</th><th>Detalle</th><th>Horas</th></tr></thead><tbody>';
+    clientesOrdenados.forEach(nombreCliente => {
+        clientesAgrupados[nombreCliente].sort((a, b) => a.fecha.localeCompare(b.fecha)).forEach(r => {
+            const detalle = (r.tramos || []).map(t => `${t.inicio || '-'} - ${t.fin || '-'} (${formatearHoras(getHorasTotalesEnMinutos([t]))})`).join('<br>');
+            const totalDia = formatearHoras(getHorasTotalesEnMinutos(r.tramos));
+            html += `<tr><td>${nombreCliente}</td><td>${r.fecha}</td><td>${detalle}</td><td>${totalDia}</td></tr>`;
+        });
+    });
+    html += '</tbody></table></div>';
+    return html;
+}
+
 async function cargarClientesInforme() {
     
     const select = document.getElementById('clienteInforme');
@@ -42,71 +140,22 @@ document.getElementById('formInforme').onsubmit = async function(e) {
         resultado.innerHTML = '<p>No hay registros para el periodo seleccionado.</p>';
         return;
     }
-    // Agrupar por cliente y fecha, y ordenar
-    let html = '';
-    const clientesAgrupados = {};
-    registros.forEach(r => {
-        if(!clientesAgrupados[r.cliente]) clientesAgrupados[r.cliente] = [];
-        clientesAgrupados[r.cliente].push(r);
-    });
-    // Ordenar clientes alfabéticamente
-    const clientesOrdenados = Object.keys(clientesAgrupados).sort((a, b) => a.localeCompare(b));
-    clientesOrdenados.forEach(cliente => {
-        html += `<h3>Cliente: ${cliente}</h3>`;
-        html += `<table class='tabla-informe'><thead><tr><th>Fecha</th><th>Carga Horaria</th><th>Total horas</th></tr></thead><tbody>`;
-        let totalCliente = 0;
-        // Ordenar registros por fecha
-        clientesAgrupados[cliente].sort((a, b) => a.fecha.localeCompare(b.fecha)).forEach(r => {
-            let tramosHtml = '';
-            let totalDia = 0;
-            r.tramos.forEach(t => {
-                let horasMostrar = t.horas;
-                let minutosTotales = 0;
-                // Si hay inicio y fin, calcular minutos totales
-                if (t.inicio && t.fin) {
-                    const [h1, m1] = t.inicio.split(':').map(Number);
-                    const [h2, m2] = t.fin.split(':').map(Number);
-                    minutosTotales = (h2*60 + m2) - (h1*60 + m1);
-                    if(minutosTotales < 0) minutosTotales += 24*60;
-                } else if (t.horas && t.horas.includes(':')) {
-                    // Si ya viene en formato HH:MM
-                    const [h, m] = t.horas.split(':').map(Number);
-                    minutosTotales = h*60 + m;
-                } else if (t.horas) {
-                    // Si viene en decimal (ej: 1.5, 2.25)
-                    let partes = t.horas.split('.');
-                    let h = parseInt(partes[0] || '0');
-                    let m = parseInt(partes[1] || '0');
-                    if (m > 0) {
-                        // Si los decimales son minutos (ej: 1.30 = 1h 30m)
-                        if (m < 60) {
-                            minutosTotales = h*60 + m;
-                        } else {
-                            // Si los decimales son decimales (ej: 1.5 = 1h 30m)
-                            minutosTotales = h*60 + Math.round(60 * (parseFloat('0.'+m)));
-                        }
-                    } else {
-                        minutosTotales = h*60;
-                    }
-                }
-                // Formatear a HH:MM
-                let horasFinal = Math.floor(minutosTotales/60).toString().padStart(2,'0') + ':' + (minutosTotales%60).toString().padStart(2,'0');
-                if (!t.inicio && !t.fin && !t.horas) horasFinal = '-';
-                tramosHtml += `${t.inicio || '-'} - ${t.fin || '-'} (${horasFinal})<br>`;
-                totalDia += minutosTotales;
-            });
-            // Mostrar total del día en formato HH:MM
-            let totalDiaStr = Math.floor(totalDia/60).toString().padStart(2,'0') + ':' + (totalDia%60).toString().padStart(2,'0');
-            html += `<tr><td>${r.fecha}</td><td>${tramosHtml}</td><td>${totalDiaStr}</td></tr>`;
-            totalCliente += totalDia;
-        });
-        // Mostrar total del cliente en formato HH:MM
-        let totalClienteStr = Math.floor(totalCliente/60).toString().padStart(2,'0') + ':' + (totalCliente%60).toString().padStart(2,'0');
-        html += `<tr class='total-row'><td colspan='2'>Total ${cliente}</td><td>${totalClienteStr}</td></tr>`;
-        // (Líneas duplicadas eliminadas)
-        html += '</tbody></table>';
-    });
+
+    const html = vistaActual === 'nuevo' ? renderInformeNuevo(registros, cliente) : renderInformeClassic(registros, cliente);
     resultado.innerHTML = html;
 };
 
-window.addEventListener('DOMContentLoaded', cargarClientesInforme);
+function setVistaInforme(vista) {
+    vistaActual = vista;
+    document.getElementById('btnInformeClassic').classList.toggle('active', vista === 'classic');
+    document.getElementById('btnInformeNuevo').classList.toggle('active', vista === 'nuevo');
+    document.getElementById('formInforme').dispatchEvent(new Event('submit'));
+}
+
+document.getElementById('btnInformeClassic').addEventListener('click', () => setVistaInforme('classic'));
+document.getElementById('btnInformeNuevo').addEventListener('click', () => setVistaInforme('nuevo'));
+
+window.addEventListener('DOMContentLoaded', () => {
+    cargarClientesInforme();
+    setVistaInforme('classic');
+});
