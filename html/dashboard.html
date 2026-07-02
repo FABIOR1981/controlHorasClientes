@@ -123,10 +123,15 @@
         return hours;
     }
 
-    function getMonthlyTotals(records, months) {
+    function getMonthlyTotals(records, months, clientesDisponibles = []) {
         const dates = records.map(r => r.fecha).filter(Boolean);
         const latestDate = dates.length ? dates.reduce((latest, current) => current > latest ? current : latest, dates[0]) : null;
-        if (!latestDate) return [];
+        if (!latestDate) {
+            const nombresClientes = (clientesDisponibles || [])
+                .map(item => item && (item.nombre || item))
+                .filter(Boolean);
+            return nombresClientes.map(nombre => [nombre, 0]);
+        }
 
         const latest = new Date(`${latestDate}T00:00:00`);
         const start = new Date(latest.getFullYear(), latest.getMonth() - months + 1, 1);
@@ -141,16 +146,25 @@
             totals[client] = (totals[client] || 0) + total;
         });
 
-        return Object.entries(totals)
-            .filter(([, value]) => value > 0)
-            .sort((a, b) => b[1] - a[1]);
+        const clientes = (clientesDisponibles || [])
+            .map(item => item && (item.nombre || item))
+            .filter(Boolean);
+        const nombresClientes = Array.from(new Set([...clientes, ...Object.keys(totals)]));
+
+        return nombresClientes
+            .map(nombre => [nombre, totals[nombre] || 0])
+            .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
     }
 
     async function renderHomeSummary(months) {
         try {
-            const response = await fetch('../data/horasClientes.json');
-            const records = await response.json();
-            const entries = getMonthlyTotals(records, months);
+            const [responseHours, responseClients] = await Promise.all([
+                fetch('../data/horasClientes.json'),
+                fetch('../data/listaClientes.json')
+            ]);
+            const records = await responseHours.json();
+            const clientes = await responseClients.json();
+            const entries = getMonthlyTotals(records, months, clientes);
             rangeLabel.textContent = `${months} meses`;
 
             if (!entries.length) {
@@ -167,12 +181,12 @@
             let currentAngle = 0;
             const topEntries = maxClients > 0 ? entries.slice(0, maxClients) : entries;
             const segments = topEntries.map(([client, value], index) => {
-                const percentage = (value / total) * 100;
+                const percentage = total > 0 ? (value / total) * 100 : 0;
                 const start = currentAngle;
                 currentAngle += percentage;
                 return `${colors[index % colors.length]} ${start.toFixed(2)}% ${currentAngle.toFixed(2)}%`;
             });
-            hoursChart.style.background = `conic-gradient(${segments.join(', ')})`;
+            hoursChart.style.background = total > 0 ? `conic-gradient(${segments.join(', ')})` : 'linear-gradient(135deg, #e8f5e9 0%, #f4f4f4 100%)';
 
             legendList.innerHTML = topEntries.map(([client, value], index) => `
                 <li class="legend-item">
