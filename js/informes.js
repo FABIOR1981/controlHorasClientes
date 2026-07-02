@@ -46,15 +46,21 @@ function buildReportFileName(cliente, fechaInicio, fechaFin) {
     return `${safeCliente}_${inicio}_${fin}.pdf`;
 }
 
-function triggerPdfDownload(fileName) {
-    const previousTitle = document.title;
-    document.title = fileName;
-    window.setTimeout(() => {
-        window.print();
-        window.setTimeout(() => {
-            document.title = previousTitle;
-        }, 500);
-    }, 150);
+function triggerPdfDownload(fileName, element) {
+    if (typeof window.html2pdf !== 'function') {
+        alert('No se pudo preparar el PDF porque la librería de exportación no está disponible.');
+        return;
+    }
+
+    const options = {
+        margin: [0.3, 0.3, 0.3, 0.3],
+        filename: fileName,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    window.html2pdf().set(options).from(element).save();
 }
 
 function getHorasTotalesEnMinutos(tramos) {
@@ -200,7 +206,7 @@ async function generarInforme(config, { shouldDownload = false } = {}) {
 
     if (shouldDownload) {
         const fileName = buildReportFileName(cliente, fechaInicio, fechaFin);
-        window.setTimeout(() => triggerPdfDownload(fileName), 100);
+        window.setTimeout(() => triggerPdfDownload(fileName, resultado), 150);
     }
 }
 
