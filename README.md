@@ -50,7 +50,7 @@ js/                        Lógica de cada pantalla y configuración (config.js)
 css/                       Estilos de cada pantalla
 data/                      Datos en JSON (usuarios, clientes, horas)
 netlify/functions/         Funciones que guardan los JSON en GitHub
-docs/DETALLE.md            Documentación ampliada
+documentacion/LEEME.md     Aviso: la documentación está en documentacion-central
 ```
 
-Más información en [docs/DETALLE.md](docs/DETALLE.md).
+Más información en [DETALLE.md](https://github.com/FABIOR1981/documentacion-central/blob/main/controlHorasClientes/documentacion/DETALLE.md), en documentacion-central.
